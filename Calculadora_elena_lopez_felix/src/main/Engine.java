@@ -12,7 +12,7 @@ import javax.swing.JTextField;
  * 
  * @author elena
  */
-public class Engine extends JFrame {
+public class Engine {
 
 	// Marco de la ventana
 	private JFrame frame;
@@ -59,10 +59,56 @@ public class Engine extends JFrame {
 	/**
 	 * Constructora
 	 * 
-	 * @param _msg es el titulo de la ventana
 	 */
-	public Engine(String _msg) {
-		super(_msg);
+	public Engine() {
+		// Inicializacion de la ventana
+		this.frame = new JFrame("Calculadora");
+
+		// Inicializacion del panel que ocupa toda la ventana
+		this.contentPanel = new JPanel();
+
+		// Inicializacion del panel que contiene el display. (Panel Norte)
+		this.displayPanel = new JPanel();
+
+		// Inicializacion del panel que contiene los botones. (Panel Sur)
+		this.buttonPanel = new JPanel();
+
+		// Inicializacion del display que actua como la pantalla de la calculadora
+		this.display = new JTextField(15);
+
+		// Inicializacion de los botones de numeros
+		this.n0 = new JButton("0");
+
+		this.n1 = new JButton("1");
+
+		this.n2 = new JButton("2");
+
+		this.n3 = new JButton("3");
+
+		this.n4 = new JButton("4");
+
+		this.n5 = new JButton("5");
+
+		this.n6 = new JButton("6");
+
+		this.n7 = new JButton("7");
+
+		this.n8 = new JButton("8");
+
+		this.n9 = new JButton("9");
+
+		// Inicializacion de los botones de acciones
+		this.divide = new JButton("÷");
+
+		this.multiply = new JButton("X");
+
+		this.subtract = new JButton("-");
+
+		this.add = new JButton("+");
+
+		this.equal = new JButton("=");
+
+		this.reset = new JButton("C");
 
 	}
 
