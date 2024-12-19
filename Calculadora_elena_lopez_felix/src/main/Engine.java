@@ -1,12 +1,14 @@
 package main;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * Engine class
+ * Clase Engine
  * 
  * @author elena
  */
@@ -54,8 +56,61 @@ public class Engine extends JFrame {
 	private int num1, num2, result;
 	private char operation;
 
+	/**
+	 * Constructora
+	 * 
+	 * @param _msg es el titulo de la ventana
+	 */
 	public Engine(String _msg) {
 		super(_msg);
+
+	}
+
+	/**
+	 * Metodo que establece la configuracion principal de todos los componentes
+	 * visuales de la ventana
+	 */
+	public void setSettings() {
+
+	}
+
+	/**
+	 * Metodo que distingue el tipo de boton y le edita en funcion de su tipo
+	 * 
+	 * @param _button identifica el boton sobre el que se van a cambiar las
+	 *                caracteristicas
+	 * @param _type   identifica de que tipo es el boton sobre el que van a cambiar
+	 *                las caracteristicas
+	 */
+	public void setFeaturesButton(JButton _button, ButtonType _type) {
+
+	}
+
+	/**
+	 * Metodo que registra los ActionListener para todos los botones de la
+	 * aplicacion
+	 */
+	public void addActionEvent() {
+
+	}
+
+	/**
+	 * Metodo que comprueba que operacion se debe realizar
+	 */
+	public void operation() {
+
+	}
+
+	/**
+	 * Metodo que se encarga de obtener la informacion que haya en el display y
+	 * llamar al metodo operation() para ejecutar dicha operacion
+	 * 
+	 * @param e es el objeto que lee el display
+	 */
+	public void actionPerformed(ActionEvent e) {
+		// Recogemos el tipo de boton que se ha pulsado y su texto
+		Object source = e.getSource();
+		String input_text = e.getActionCommand();
 
 	}
 

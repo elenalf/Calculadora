@@ -1,7 +1,7 @@
 package main;
 
 /**
- * Main class
+ * Clase Main
  * 
  * @author elena
  * 
