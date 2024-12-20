@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
@@ -109,6 +111,8 @@ public class Engine {
 		this.equal = new JButton("=");
 
 		this.reset = new JButton("C");
+		
+		setSettings();
 
 	}
 
@@ -117,6 +121,69 @@ public class Engine {
 	 * visuales de la ventana
 	 */
 	public void setSettings() {
+		
+		// Configuracion del panel principal
+		this.contentPanel.setLayout(new BorderLayout());
+		
+		// Configuracion del panel que contiene el display. (Panel Norte)
+		this.displayPanel.setLayout(new GridLayout(1, 1));
+		this.displayPanel.add(this.display);
+		
+		// Configuracion del panel que contiene los botones. (Panel Sur)
+		this.buttonPanel.setLayout(new GridLayout(4, 4));
+
+		// Primera fila
+		this.buttonPanel.add(this.n7);
+		setFeaturesButton(this.n7, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n8);
+		setFeaturesButton(this.n8, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n9);
+		setFeaturesButton(this.n9, ButtonType.REGULAR);
+		this.buttonPanel.add(this.add);
+		setFeaturesButton(this.add, ButtonType.OPERATOR);
+
+		// Segunda fila
+		this.buttonPanel.add(this.n4);
+		setFeaturesButton(this.n4, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n5);
+		setFeaturesButton(this.n5, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n6);
+		setFeaturesButton(this.n6, ButtonType.REGULAR);
+		this.buttonPanel.add(this.subtract);
+		setFeaturesButton(this.subtract, ButtonType.OPERATOR);
+
+		// Tercera fila
+		this.buttonPanel.add(this.n1);
+		setFeaturesButton(this.n1, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n2);
+		setFeaturesButton(this.n2, ButtonType.REGULAR);
+		this.buttonPanel.add(this.n3);
+		setFeaturesButton(this.n3, ButtonType.REGULAR);
+		this.buttonPanel.add(this.multiply);
+		setFeaturesButton(this.multiply, ButtonType.OPERATOR);
+
+		// Cuarta fila
+		this.buttonPanel.add(this.n0);
+		setFeaturesButton(this.n0, ButtonType.REGULAR);
+		this.buttonPanel.add(this.equal);
+		setFeaturesButton(this.equal, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.reset);
+		setFeaturesButton(this.reset, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.divide);
+		setFeaturesButton(this.divide, ButtonType.OPERATOR);
+		
+		// Insertar el panel que contiene el display (Panel Norte) al panel principal
+		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
+		
+		// Insertar el panel que contiene los botones (Panel Sur) al panel principal
+		this.contentPanel.add(this.buttonPanel, BorderLayout.SOUTH);
+		
+		// Propiedades de la ventana
+		this.frame.add(this.contentPanel);
+		this.frame.setLocation(200, 200);
+		this.frame.setSize(400, 700);
+		this.frame.setVisible(true);
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);;
 
 	}
 
