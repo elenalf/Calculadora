@@ -1,8 +1,12 @@
 package main;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,7 +18,7 @@ import javax.swing.JTextField;
  * 
  * @author elena
  */
-public class Engine {
+public class Engine implements ActionListener {
 
 	// Marco de la ventana
 	private JFrame frame;
@@ -76,7 +80,7 @@ public class Engine {
 		this.buttonPanel = new JPanel();
 
 		// Inicializacion del display que actua como la pantalla de la calculadora
-		this.display = new JTextField(15);
+		this.display = new JTextField();
 
 		// Inicializacion de los botones de numeros
 		this.n0 = new JButton("0");
@@ -111,8 +115,10 @@ public class Engine {
 		this.equal = new JButton("=");
 
 		this.reset = new JButton("C");
-		
+
+		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
+		addActionEvent();
 
 	}
 
@@ -121,14 +127,24 @@ public class Engine {
 	 * visuales de la ventana
 	 */
 	public void setSettings() {
-		
+
+		// Configuracion del display
+		this.display.setPreferredSize(new Dimension(800, 150));
+		;
+		/*
+		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
+		 * - cursiva, 3 - negrita + cursiva)
+		 */
+		this.display.setFont(new Font("Calibri", 2, 50));
+		this.display.setForeground(Color.BLACK);
+
 		// Configuracion del panel principal
 		this.contentPanel.setLayout(new BorderLayout());
-		
+
 		// Configuracion del panel que contiene el display. (Panel Norte)
 		this.displayPanel.setLayout(new GridLayout(1, 1));
 		this.displayPanel.add(this.display);
-		
+
 		// Configuracion del panel que contiene los botones. (Panel Sur)
 		this.buttonPanel.setLayout(new GridLayout(4, 4));
 
@@ -171,19 +187,21 @@ public class Engine {
 		setFeaturesButton(this.reset, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.divide);
 		setFeaturesButton(this.divide, ButtonType.OPERATOR);
-		
+
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
-		
+
 		// Insertar el panel que contiene los botones (Panel Sur) al panel principal
 		this.contentPanel.add(this.buttonPanel, BorderLayout.SOUTH);
-		
+
 		// Propiedades de la ventana
 		this.frame.add(this.contentPanel);
 		this.frame.setLocation(200, 200);
-		this.frame.setSize(400, 700);
+		this.frame.setSize(450, 350);
 		this.frame.setVisible(true);
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);;
+		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		;
 
 	}
 
@@ -196,6 +214,15 @@ public class Engine {
 	 *                las caracteristicas
 	 */
 	public void setFeaturesButton(JButton _button, ButtonType _type) {
+		if (_type.equals(ButtonType.REGULAR)) {
+			_button.setBackground(Color.MAGENTA);
+			_button.setFont(new Font("Calibri", 1, 25));
+
+		} else {
+			_button.setBackground(Color.CYAN);
+			_button.setFont(new Font("Calibri", 1, 25));
+
+		}
 
 	}
 
@@ -204,6 +231,22 @@ public class Engine {
 	 * aplicacion
 	 */
 	public void addActionEvent() {
+		this.n0.addActionListener(this);
+		this.n1.addActionListener(this);
+		this.n2.addActionListener(this);
+		this.n3.addActionListener(this);
+		this.n4.addActionListener(this);
+		this.n5.addActionListener(this);
+		this.n6.addActionListener(this);
+		this.n7.addActionListener(this);
+		this.n8.addActionListener(this);
+		this.n9.addActionListener(this);
+		this.add.addActionListener(this);
+		this.subtract.addActionListener(this);
+		this.multiply.addActionListener(this);
+		this.divide.addActionListener(this);
+		this.equal.addActionListener(this);
+		this.reset.addActionListener(this);
 
 	}
 
