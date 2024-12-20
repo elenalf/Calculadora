@@ -254,6 +254,23 @@ public class Engine implements ActionListener {
 	 * Metodo que comprueba que operacion se debe realizar
 	 */
 	public void operation() {
+		switch (this.operation) {
+		case 'x':
+			this.result = this.num1 + this.num2;
+			break;
+		case '-':
+			this.result = this.num1 - this.num2;
+			break;
+		case 'X':
+			this.result = this.num1 * this.num2;
+			break;
+		case '÷':
+			this.result = this.num1 / this.num2;
+			break;
+		default:
+			break;
+
+		}
 
 	}
 
@@ -264,7 +281,6 @@ public class Engine implements ActionListener {
 	 * @param e es el objeto que lee el display
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// Recogemos el tipo de boton que se ha pulsado y su texto
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
 
