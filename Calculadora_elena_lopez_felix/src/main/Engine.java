@@ -130,7 +130,8 @@ public class Engine implements ActionListener {
 
 		// Configuracion del display
 		this.display.setPreferredSize(new Dimension(800, 150));
-		;
+		this.display.setHorizontalAlignment(JTextField.RIGHT);
+
 		/*
 		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
 		 * - cursiva, 3 - negrita + cursiva)
@@ -278,11 +279,68 @@ public class Engine implements ActionListener {
 	 * Metodo que se encarga de obtener la informacion que haya en el display y
 	 * llamar al metodo operation() para ejecutar dicha operacion
 	 * 
-	 * @param e es el objeto que lee el display
+	 * @param e es el objeto que lee los valores de los botones que ha pulsado el
+	 *          usuario
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
+		String solucion = "";
+
+		if (source.equals(this.reset)) {
+			this.display.setText("0");
+			this.num1 = 0;
+			this.num2 = 0;
+			this.result = 0;
+		} else if (source.equals(this.equal)){
+			// Division para operaciones estilo: 5 + 5
+			if (this.display.getText().length() == 3) {
+				String cadena[] = this.display.getText().split("");
+				this.num1 = Integer.parseInt(cadena[0]);
+				this.operation = cadena[1].charAt(0);
+				this.num2 = Integer.parseInt(cadena[2]);
+				operation();
+				solucion += this.result;
+				this.display.setText(solucion);
+
+			} else if (this.display.getText().length() == 4) {
+				String cadena[] = this.display.getText().split("");
+				// Division para operaciones estilo: -5 + 5
+				if (cadena[0] == "-") {
+					String numNegativo = cadena[0] + cadena[1];
+					this.num1 = Integer.parseInt(numNegativo);
+					this.operation = cadena[2].charAt(0);
+					this.num2 = Integer.parseInt(cadena[3]);
+					operation();
+					solucion += this.result;
+					this.display.setText(solucion);
+					// Division para operaciones estilo: 5 + -5
+				} else {
+					this.num1 = Integer.parseInt(cadena[0]);
+					this.operation = cadena[1].charAt(0);
+					String numNegativo = cadena[2] + cadena[3];
+					this.num2 = Integer.parseInt(numNegativo);
+					operation();
+					solucion += this.result;
+					this.display.setText(solucion);
+				}
+				// Division para operaciones estilo: -5 + -5
+			} else if (this.display.getText().length() == 5) {
+				String cadena[] = input_text.split("");
+				String numNegativo1 = cadena[0] + cadena[1];
+				this.num1 = Integer.parseInt(numNegativo1);
+				this.operation = cadena[2].charAt(0);
+				String numNegativo2 = cadena[3] + cadena[4];
+				this.num2 = Integer.parseInt(numNegativo2);
+				operation();
+				solucion += this.result;
+				this.display.setText(solucion);
+			}
+		}else {
+			solucion += input_text;
+			this.display.setText(solucion);
+			
+		}
 
 	}
 
