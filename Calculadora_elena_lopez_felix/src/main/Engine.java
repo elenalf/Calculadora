@@ -292,54 +292,30 @@ public class Engine implements ActionListener {
 			this.num1 = 0;
 			this.num2 = 0;
 			this.result = 0;
-		} else if (source.equals(this.equal)){
-			// Division para operaciones estilo: 5 + 5
-			if (this.display.getText().length() == 3) {
-				String cadena[] = this.display.getText().split("");
+		} else if (source.equals(this.equal)) {
+			String cadena[] = this.display.getText().split(" ");
+			if (cadena[0] != "-") {
 				this.num1 = Integer.parseInt(cadena[0]);
-				this.operation = cadena[1].charAt(0);
-				this.num2 = Integer.parseInt(cadena[2]);
-				operation();
-				solucion += this.result;
-				this.display.setText(solucion);
-
-			} else if (this.display.getText().length() == 4) {
-				String cadena[] = this.display.getText().split("");
-				// Division para operaciones estilo: -5 + 5
-				if (cadena[0] == "-") {
-					String numNegativo = cadena[0] + cadena[1];
-					this.num1 = Integer.parseInt(numNegativo);
-					this.operation = cadena[2].charAt(0);
-					this.num2 = Integer.parseInt(cadena[3]);
-					operation();
-					solucion += this.result;
-					this.display.setText(solucion);
-					// Division para operaciones estilo: 5 + -5
+				if (cadena[cadena.length - 2] != "-") {
+					this.num2 = Integer.parseInt(cadena[cadena.length - 1]);
 				} else {
-					this.num1 = Integer.parseInt(cadena[0]);
-					this.operation = cadena[1].charAt(0);
-					String numNegativo = cadena[2] + cadena[3];
-					this.num2 = Integer.parseInt(numNegativo);
-					operation();
-					solucion += this.result;
-					this.display.setText(solucion);
+					String numNegativo_2 = cadena[cadena.length - 2] + cadena[cadena.length - 1];
+					this.num2 = Integer.parseInt(numNegativo_2);
 				}
-				// Division para operaciones estilo: -5 + -5
-			} else if (this.display.getText().length() == 5) {
-				String cadena[] = input_text.split("");
-				String numNegativo1 = cadena[0] + cadena[1];
-				this.num1 = Integer.parseInt(numNegativo1);
-				this.operation = cadena[2].charAt(0);
-				String numNegativo2 = cadena[3] + cadena[4];
-				this.num2 = Integer.parseInt(numNegativo2);
-				operation();
-				solucion += this.result;
-				this.display.setText(solucion);
+
+			} else {
+				String numNegativo_1 = cadena[0] + cadena[1];
+				this.num1 = Integer.parseInt(numNegativo_1);
 			}
-		}else {
+			this.operation = cadena[2].charAt(0);
+			operation();
+			solucion += this.result;
+			this.display.setText(solucion);
+
+		} else {
 			solucion += input_text;
 			this.display.setText(solucion);
-			
+
 		}
 
 	}
