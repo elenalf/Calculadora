@@ -116,6 +116,10 @@ public class Engine implements ActionListener {
 
 		this.reset = new JButton("C");
 
+		this.num1 = 0;
+		this.num2 = 0;
+		this.result = 0;
+
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
 		addActionEvent();
@@ -256,7 +260,7 @@ public class Engine implements ActionListener {
 	 */
 	public void operation() {
 		switch (this.operation) {
-		case 'x':
+		case '+':
 			this.result = this.num1 + this.num2;
 			break;
 		case '-':
@@ -282,40 +286,48 @@ public class Engine implements ActionListener {
 	 * @param e es el objeto que lee los valores de los botones que ha pulsado el
 	 *          usuario
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
-		String solucion = "";
 
+		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("0");
 			this.num1 = 0;
 			this.num2 = 0;
 			this.result = 0;
+
+			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
 			String cadena[] = this.display.getText().split(" ");
-			if (cadena[0] != "-") {
-				this.num1 = Integer.parseInt(cadena[0]);
-				if (cadena[cadena.length - 2] != "-") {
-					this.num2 = Integer.parseInt(cadena[cadena.length - 1]);
-				} else {
-					String numNegativo_2 = cadena[cadena.length - 2] + cadena[cadena.length - 1];
-					this.num2 = Integer.parseInt(numNegativo_2);
-				}
+			this.num1 = Integer.parseInt(cadena[0]);
+			this.operation = cadena[1].charAt(0);
+			this.num2 = Integer.parseInt(cadena[2]);
+
+			// Si la operacion es una division y el segundo numero es 0, el display mostrara
+			// un mensaje de error
+			if (this.operation == '÷' && this.num2 == 0) {
+				this.display.setText("ERROR");
+			} else {
+				operation();
+				this.display.setText(String.valueOf(this.result));
+			}
+
+			// El usuario pulsa cualquier boton de operacion excepto la de resta
+		} else if (source.equals(this.add) || source.equals(this.multiply) || source.equals(this.divide)) {
+			this.display.setText(this.display.getText() + "" + input_text + " ");
+			
+			// El usuario pulsa el boton de la resta
+		} else if (source.equals(this.subtract)) {
+			if (this.display.getText().isEmpty()) {
+				this.display.setText(this.display.getText() + " -");
 
 			} else {
-				String numNegativo_1 = cadena[0] + cadena[1];
-				this.num1 = Integer.parseInt(numNegativo_1);
+				this.display.setText(this.display.getText() + "" + input_text + " ");
 			}
-			this.operation = cadena[2].charAt(0);
-			operation();
-			solucion += this.result;
-			this.display.setText(solucion);
-
-		} else {
-			solucion += input_text;
-			this.display.setText(solucion);
-
+		}else {
+			this.display.setText(this.display.getText() + "" + input_text + " ");
 		}
 
 	}
