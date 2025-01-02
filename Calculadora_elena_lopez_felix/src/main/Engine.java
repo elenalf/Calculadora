@@ -293,7 +293,7 @@ public class Engine implements ActionListener {
 
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
-			this.display.setText("0");
+			this.display.setText("");
 			this.num1 = 0;
 			this.num2 = 0;
 			this.result = 0;
@@ -301,9 +301,21 @@ public class Engine implements ActionListener {
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
 			String cadena[] = this.display.getText().split(" ");
-			this.num1 = Integer.parseInt(cadena[0]);
+			try {
+				if(cadena[0].matches("^-?\\d+$")) {
+					this.num1 = Integer.parseInt(cadena[0]);
+				}
+			} catch(NumberFormatException ex) {
+				System.out.println(ex.getMessage());
+			}
 			this.operation = cadena[1].charAt(0);
-			this.num2 = Integer.parseInt(cadena[2]);
+			try {
+				if(cadena[2].matches("^-?\\d+$")) {
+					this.num2 = Integer.parseInt(cadena[2]);
+				}
+			} catch(NumberFormatException ex) {
+				System.out.println(ex.getMessage());
+			}
 
 			// Si la operacion es una division y el segundo numero es 0, el display mostrara
 			// un mensaje de error
@@ -321,7 +333,7 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de la resta
 		} else if (source.equals(this.subtract)) {
 			if (this.display.getText().isEmpty()) {
-				this.display.setText(this.display.getText() + " -");
+				this.display.setText(this.display.getText() + "-");
 
 			} else {
 				this.display.setText(this.display.getText() + "" + input_text + " ");
