@@ -27,4 +27,26 @@ Interfaz gráfica creada con Swing.
 ```plaintext
 git clone https://github.com/elenalf/Calculadora.git
 ```
+2. Abre el proyecto en tu IDE favorito.
+
+3. Asegúrate de tener configurado el entorno de Java correctamente.
+
+4. Compila y ejecuta el archivo principal (Main.java).
+
+# Uso 🚀
+1. Haz clic en los numeros que deseas calcular. Actualmente solo se permiten operaciones del estilo (X + X)
+
+2. Selecciona la operación que deseas realizar presionando el botón correspondiente.
+
+3. El resultado aparecerá en el campo de texto de salida.
+
+4. Si deseas reiniciar, presiona el botón "C" (borrar).
+
+# Estructura del Código 📂
+Este proyecto tiene una estructura bastante sencilla.
+- Main.java: Es la clase donde se inicializa el proyecto
+- Engine.java: Es la clase donde se almacena toda la lógica de la calculadora
+
+# Autora 👤
+Creado por *Elena López Félix*
 
