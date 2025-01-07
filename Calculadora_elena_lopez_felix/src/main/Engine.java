@@ -105,7 +105,7 @@ public class Engine implements ActionListener {
 		this.n9 = new JButton("9");
 
 		// Inicializacion de los botones de acciones
-		this.divide = new JButton("÷");
+		this.divide = new JButton("/");
 
 		this.multiply = new JButton("X");
 
@@ -268,22 +268,22 @@ public class Engine implements ActionListener {
 	 */
 	public void operation() {
 		switch (this.operation) {
-		case '+':
-			this.result = this.num1 + this.num2;
-			break;
-		case '-':
-			this.result = this.num1 - this.num2;
-			break;
-		case 'X':
-			this.result = this.num1 * this.num2;
-			break;
-		case '÷':
-			this.result = this.num1 / this.num2;
-			break;
-		default:
-			break;
+			case '+':
+				this.result = this.num1 + this.num2;
+				break;
+			case '-':
+				this.result = this.num1 - this.num2;
+				break;
+			case 'X':
+				this.result = this.num1 * this.num2;
+				break;
+			case '/':
+				this.result = this.num1 / this.num2;
+				break;
+			default:
+				break;
 
-		}
+			}
 
 	}
 
