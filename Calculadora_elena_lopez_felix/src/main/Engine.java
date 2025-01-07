@@ -52,7 +52,6 @@ public class Engine implements ActionListener {
 	private JButton add;
 	private JButton equal;
 	private JButton reset;
-	private JButton negativo;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -117,7 +116,6 @@ public class Engine implements ActionListener {
 
 		this.reset = new JButton("C");
 		
-		this.negativo = new JButton("N");
 
 		this.num1 = 0;
 		this.num2 = 0;
@@ -155,7 +153,7 @@ public class Engine implements ActionListener {
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
-		this.buttonPanel.setLayout(new GridLayout(5, 4));
+		this.buttonPanel.setLayout(new GridLayout(4, 4));
 
 		// Primera fila
 		this.buttonPanel.add(this.n7);
@@ -190,8 +188,6 @@ public class Engine implements ActionListener {
 		// Cuarta fila
 		this.buttonPanel.add(this.n0);
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
-		this.buttonPanel.add(this.negativo);
-		setFeaturesButton(this.negativo, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.divide);
 		setFeaturesButton(this.divide, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
@@ -259,7 +255,6 @@ public class Engine implements ActionListener {
 		this.divide.addActionListener(this);
 		this.equal.addActionListener(this);
 		this.reset.addActionListener(this);
-		this.negativo.addActionListener(this);
 
 	}
 
