@@ -52,6 +52,7 @@ public class Engine implements ActionListener {
 	private JButton add;
 	private JButton equal;
 	private JButton reset;
+	private JButton negativo;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -115,6 +116,8 @@ public class Engine implements ActionListener {
 		this.equal = new JButton("=");
 
 		this.reset = new JButton("C");
+		
+		this.negativo = new JButton("N");
 
 		this.num1 = 0;
 		this.num2 = 0;
@@ -135,6 +138,7 @@ public class Engine implements ActionListener {
 		// Configuracion del display
 		this.display.setPreferredSize(new Dimension(800, 150));
 		this.display.setHorizontalAlignment(JTextField.RIGHT);
+		this.display.setEditable(false);
 
 		/*
 		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
@@ -151,7 +155,7 @@ public class Engine implements ActionListener {
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
-		this.buttonPanel.setLayout(new GridLayout(4, 4));
+		this.buttonPanel.setLayout(new GridLayout(5, 4));
 
 		// Primera fila
 		this.buttonPanel.add(this.n7);
@@ -186,12 +190,15 @@ public class Engine implements ActionListener {
 		// Cuarta fila
 		this.buttonPanel.add(this.n0);
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
+		this.buttonPanel.add(this.negativo);
+		setFeaturesButton(this.negativo, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.divide);
+		setFeaturesButton(this.divide, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
 		setFeaturesButton(this.equal, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.reset);
 		setFeaturesButton(this.reset, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.divide);
-		setFeaturesButton(this.divide, ButtonType.OPERATOR);
+		
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
@@ -202,7 +209,7 @@ public class Engine implements ActionListener {
 		// Propiedades de la ventana
 		this.frame.add(this.contentPanel);
 		this.frame.setLocation(200, 200);
-		this.frame.setSize(450, 350);
+		this.frame.setSize(450, 395);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -252,6 +259,7 @@ public class Engine implements ActionListener {
 		this.divide.addActionListener(this);
 		this.equal.addActionListener(this);
 		this.reset.addActionListener(this);
+		this.negativo.addActionListener(this);
 
 	}
 
@@ -288,6 +296,7 @@ public class Engine implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		String cadena[] = this.display.getText().split(" ");
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
 
@@ -300,36 +309,17 @@ public class Engine implements ActionListener {
 
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
-			String cadena[] = this.display.getText().split(" ");
-			try {
-				if(cadena[0].matches("^-?\\d+$")) {
-					this.num1 = Integer.parseInt(cadena[0]);
-				}
-			} catch(NumberFormatException ex) {
-				System.out.println(ex.getMessage());
-			}
-			this.operation = cadena[1].charAt(0);
-			try {
-				if(cadena[2].matches("^-?\\d+$")) {
-					this.num2 = Integer.parseInt(cadena[2]);
-				}
-			} catch(NumberFormatException ex) {
-				System.out.println(ex.getMessage());
-			}
-
-			// Si la operacion es una division y el segundo numero es 0, el display mostrara
-			// un mensaje de error
-			if (this.operation == '÷' && this.num2 == 0) {
-				this.display.setText("ERROR");
-			} else {
-				operation();
-				this.display.setText(String.valueOf(this.result));
-			}
+			this.num1 = Integer.parseInt(cadena[0]);
+			this.num2 = Integer.parseInt(cadena[cadena.length - 1]);
+			this.operation = cadena[cadena.length - 2].charAt(0);
+			System.out.println("Num1: " + this.num1 + " Operacion: " + this.operation + " Num2: " + this.num2);
+			operation();
+			this.display.setText(String.valueOf(this.result));
 
 			// El usuario pulsa cualquier boton de operacion excepto la de resta
-		} else if (source.equals(this.add) || source.equals(this.multiply) || source.equals(this.divide)) {
+		}else if (source.equals(this.add) || source.equals(this.multiply) || source.equals(this.divide)) {
 			this.display.setText(this.display.getText() + "" + input_text + " ");
-			
+
 			// El usuario pulsa el boton de la resta
 		} else if (source.equals(this.subtract)) {
 			if (this.display.getText().isEmpty()) {
@@ -338,7 +328,8 @@ public class Engine implements ActionListener {
 			} else {
 				this.display.setText(this.display.getText() + "" + input_text + " ");
 			}
-		}else {
+			// El usuario pulsa cualquier otro boton
+		} else {
 			this.display.setText(this.display.getText() + "" + input_text + " ");
 		}
 
