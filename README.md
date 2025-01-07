@@ -49,6 +49,11 @@ Este proyecto tiene una estructura bastante sencilla.
 - Main.java: Es la clase donde se inicializa el proyecto
 - Engine.java: Es la clase donde se almacena toda la lógica de la calculadora
 
+# Ejemplo de Operaciones
+![Primera Operacion](media/operation_1.png)
+
+![Resultado Operación 1](media/operation_2.png)
+
 # Autora 👤
 Creado por *Elena López Félix*
 
