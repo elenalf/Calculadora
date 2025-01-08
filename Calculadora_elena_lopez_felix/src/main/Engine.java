@@ -259,13 +259,15 @@ public class Engine implements ActionListener {
 	}
 
 	/**
-	 * Metodo que comprueba que operacion se debe realizar
+	 * Metodo que realiza las operaciones y divide el display en los operandos
 	 */
 	public void operation() {
 		String texto = this.display.getText();
+		// Expresion regular para separar el texto del display
 		String regex = "(-?\\d+)([+-X/])(-?\\d)";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(texto);
+
 		if (matcher.matches()) {
 			this.num1 = Integer.parseInt(matcher.group(1));
 			this.operation = matcher.group(2).charAt(0);
@@ -273,6 +275,7 @@ public class Engine implements ActionListener {
 		} else {
 			this.result = 0;
 		}
+
 		switch (this.operation) {
 		case '+':
 			this.result = this.num1 + this.num2;
@@ -314,7 +317,8 @@ public class Engine implements ActionListener {
 			operation();
 			this.display.setText(String.valueOf(this.result));
 
-		}else {
+			// El usuario pulsa cualquier otro boton
+		} else {
 			this.display.setText(this.display.getText() + input_text);
 		}
 	}
