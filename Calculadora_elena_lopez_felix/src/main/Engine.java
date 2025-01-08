@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -115,7 +117,6 @@ public class Engine implements ActionListener {
 		this.equal = new JButton("=");
 
 		this.reset = new JButton("C");
-		
 
 		this.num1 = 0;
 		this.num2 = 0;
@@ -194,7 +195,6 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.equal, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.reset);
 		setFeaturesButton(this.reset, ButtonType.OPERATOR);
-		
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
@@ -262,23 +262,34 @@ public class Engine implements ActionListener {
 	 * Metodo que comprueba que operacion se debe realizar
 	 */
 	public void operation() {
+		String texto = this.display.getText();
+		String regex = "(-?\\d+)([+-X/])(-?\\d)";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(texto);
+		if (matcher.matches()) {
+			this.num1 = Integer.parseInt(matcher.group(1));
+			this.operation = matcher.group(2).charAt(0);
+			this.num2 = Integer.parseInt(matcher.group(3));
+		} else {
+			this.result = 0;
+		}
 		switch (this.operation) {
-			case '+':
-				this.result = this.num1 + this.num2;
-				break;
-			case '-':
-				this.result = this.num1 - this.num2;
-				break;
-			case 'X':
-				this.result = this.num1 * this.num2;
-				break;
-			case '/':
-				this.result = this.num1 / this.num2;
-				break;
-			default:
-				break;
+		case '+':
+			this.result = this.num1 + this.num2;
+			break;
+		case '-':
+			this.result = this.num1 - this.num2;
+			break;
+		case 'X':
+			this.result = this.num1 * this.num2;
+			break;
+		case '/':
+			this.result = this.num1 / this.num2;
+			break;
+		default:
+			break;
 
-			}
+		}
 
 	}
 
@@ -291,43 +302,21 @@ public class Engine implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cadena[] = this.display.getText().split(" ");
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
 
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("");
-			this.num1 = 0;
-			this.num2 = 0;
-			this.result = 0;
 
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
-			this.num1 = Integer.parseInt(cadena[0]);
-			this.num2 = Integer.parseInt(cadena[cadena.length - 1]);
-			this.operation = cadena[cadena.length - 2].charAt(0);
-			System.out.println("Num1: " + this.num1 + " Operacion: " + this.operation + " Num2: " + this.num2);
 			operation();
 			this.display.setText(String.valueOf(this.result));
 
-			// El usuario pulsa cualquier boton de operacion excepto la de resta
-		}else if (source.equals(this.add) || source.equals(this.multiply) || source.equals(this.divide)) {
-			this.display.setText(this.display.getText() + "" + input_text + " ");
-
-			// El usuario pulsa el boton de la resta
-		} else if (source.equals(this.subtract)) {
-			if (this.display.getText().isEmpty()) {
-				this.display.setText(this.display.getText() + "-");
-
-			} else {
-				this.display.setText(this.display.getText() + "" + input_text + " ");
-			}
-			// El usuario pulsa cualquier otro boton
-		} else {
-			this.display.setText(this.display.getText() + "" + input_text + " ");
+		}else {
+			this.display.setText(this.display.getText() + input_text);
 		}
-
 	}
 
 }
