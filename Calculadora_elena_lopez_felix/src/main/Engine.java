@@ -54,6 +54,8 @@ public class Engine implements ActionListener {
 	private JButton add;
 	private JButton equal;
 	private JButton reset;
+	private JButton delete;
+	private JButton raiz;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -118,6 +120,10 @@ public class Engine implements ActionListener {
 
 		this.reset = new JButton("C");
 
+		this.delete = new JButton("←");
+		
+		this.raiz = new JButton("√");
+
 		this.num1 = 0;
 		this.num2 = 0;
 		this.result = 0;
@@ -154,7 +160,7 @@ public class Engine implements ActionListener {
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
-		this.buttonPanel.setLayout(new GridLayout(4, 4));
+		this.buttonPanel.setLayout(new GridLayout(5, 4));
 
 		// Primera fila
 		this.buttonPanel.add(this.n7);
@@ -189,6 +195,8 @@ public class Engine implements ActionListener {
 		// Cuarta fila
 		this.buttonPanel.add(this.n0);
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
+		this.buttonPanel.add(this.delete);
+		setFeaturesButton(this.delete, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.divide);
 		setFeaturesButton(this.divide, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
@@ -255,6 +263,7 @@ public class Engine implements ActionListener {
 		this.divide.addActionListener(this);
 		this.equal.addActionListener(this);
 		this.reset.addActionListener(this);
+		this.delete.addActionListener(this);
 
 	}
 
@@ -262,20 +271,6 @@ public class Engine implements ActionListener {
 	 * Metodo que realiza las operaciones y divide el display en los operandos
 	 */
 	public void operation() {
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d)";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(texto);
-
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-		} else {
-			this.result = 0;
-		}
-
 		switch (this.operation) {
 		case '+':
 			this.result = this.num1 + this.num2;
@@ -308,14 +303,35 @@ public class Engine implements ActionListener {
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
 
+		String texto = this.display.getText();
+		// Expresion regular para separar el texto del display
+		String regex = "(-?\\d+)([+-X/])(-?\\d)";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(texto);
+
+		if (matcher.matches()) {
+			this.num1 = Integer.parseInt(matcher.group(1));
+			this.operation = matcher.group(2).charAt(0);
+			this.num2 = Integer.parseInt(matcher.group(3));
+		} else {
+			this.result = 0;
+		}
+
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("");
+			this.result = 0;
+			this.num1 = 0;
+			this.num2 = 0;
 
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
 			operation();
 			this.display.setText(String.valueOf(this.result));
+
+			// El usuario pulsa delete
+		} else if (source.equals(this.delete)) {
+			this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
 
 			// El usuario pulsa cualquier otro boton
 		} else {
