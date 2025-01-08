@@ -54,9 +54,11 @@ public class Engine implements ActionListener {
 	private JButton add;
 	private JButton equal;
 	private JButton reset;
+	// Nuevas funcionalidades
 	private JButton delete;
 	private JButton raiz;
 	private JButton potencia;
+	private JButton factorial;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -124,8 +126,10 @@ public class Engine implements ActionListener {
 		this.delete = new JButton("←");
 
 		this.raiz = new JButton("√");
-		
+
 		this.potencia = new JButton("^");
+
+		this.factorial = new JButton("!");
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -200,14 +204,16 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.raiz, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.divide);
 		setFeaturesButton(this.divide, ButtonType.OPERATOR);
-		
+
 		// Quinta fila
-		this.buttonPanel.add(this.potencia);
-		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.equal);
-		setFeaturesButton(this.equal, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.factorial);
+		setFeaturesButton(this.factorial, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.reset);
 		setFeaturesButton(this.reset, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.equal);
+		setFeaturesButton(this.equal, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.potencia);
+		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
@@ -271,6 +277,7 @@ public class Engine implements ActionListener {
 		this.delete.addActionListener(this);
 		this.raiz.addActionListener(this);
 		this.potencia.addActionListener(this);
+		this.factorial.addActionListener(this);
 
 	}
 
@@ -297,6 +304,9 @@ public class Engine implements ActionListener {
 		case '^':
 			this.result = (int) Math.pow(this.num1, this.num2);
 			break;
+		case '!':
+			this.result = factorial(this.num1);
+			break;
 		default:
 			break;
 
@@ -321,10 +331,14 @@ public class Engine implements ActionListener {
 		String regex = "(-?\\d+)([+-X/^])(-?\\d)";
 		// Expresion regular especial para la raiz cuadrada
 		String regexRaiz = "(-?√)(\\d+)";
+		// Expresion regular especial para el factorial
+		String regexFactorial = "(\\d+)(!)";
 		Pattern pattern = Pattern.compile(regex);
 		Pattern patternRaiz = Pattern.compile(regexRaiz);
+		Pattern patternFactorial = Pattern.compile(regexFactorial);
 		Matcher matcher = pattern.matcher(texto);
 		Matcher matcherRaiz = patternRaiz.matcher(texto);
+		Matcher matcherFactorial = patternFactorial.matcher(texto);
 
 		if (matcher.matches()) {
 			this.num1 = Integer.parseInt(matcher.group(1));
@@ -335,6 +349,10 @@ public class Engine implements ActionListener {
 			System.out.println(matcherRaiz.group(1) + matcherRaiz.group(2));
 			this.operation = matcherRaiz.group(1).charAt(0);
 			this.num1 = Integer.parseInt(matcherRaiz.group(2));
+
+		} else if (matcherFactorial.matches()) {
+			this.num1 = Integer.parseInt(matcherFactorial.group(1));
+			this.operation = matcherFactorial.group(2).charAt(0);
 
 		} else {
 			this.result = 0;
@@ -364,6 +382,14 @@ public class Engine implements ActionListener {
 		} else {
 			this.display.setText(this.display.getText() + input_text);
 		}
+	}
+
+	public Integer factorial(int num) {
+		int factorial = 1;
+		for (int i = num; i > 0; i--) {
+			factorial *= i;
+		}
+		return factorial;
 	}
 
 }
