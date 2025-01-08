@@ -16,12 +16,18 @@ Interfaz gráfica creada con Swing.
 
     - División (/)
 
+    - Potencia (^)
+
+    - Raiz Cuadrada (√)
+
+    - Factorial (!)
+
 - Campo de texto para ingresar los números y el resultado.
 
 - Botones para cada operación y para borrar los valores ingresados.
 
 # Requisitos 🛠️
-- Java Development Kit (JDK) 8 o superior.
+- Java Development Kit (JDK) 17 o superior.
 - Un IDE como **IntelliJ IDEA**, **Eclipse**, o simplemente la consola para compilar y ejecutar.
 
 # Instalación 📥
@@ -36,7 +42,7 @@ git clone https://github.com/elenalf/Calculadora.git
 4. Compila y ejecuta el archivo principal (Main.java).
 
 # Uso 🚀
-1. Haz clic en los numeros que deseas calcular. Actualmente solo se permiten operaciones del estilo (X + X)
+1. Haz clic en los numeros que deseas calcular
 
 2. Selecciona la operación que deseas realizar presionando el botón correspondiente.
 
