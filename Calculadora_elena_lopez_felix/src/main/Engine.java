@@ -56,6 +56,7 @@ public class Engine implements ActionListener {
 	private JButton reset;
 	private JButton delete;
 	private JButton raiz;
+	private JButton potencia;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -123,6 +124,8 @@ public class Engine implements ActionListener {
 		this.delete = new JButton("←");
 
 		this.raiz = new JButton("√");
+		
+		this.potencia = new JButton("^");
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -140,7 +143,7 @@ public class Engine implements ActionListener {
 		this.display.setPreferredSize(new Dimension(800, 150));
 		this.display.setHorizontalAlignment(JTextField.RIGHT);
 		this.display.setEditable(false);
-		
+
 		/*
 		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
 		 * - cursiva, 3 - negrita + cursiva)
@@ -197,6 +200,10 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.raiz, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.divide);
 		setFeaturesButton(this.divide, ButtonType.OPERATOR);
+		
+		// Quinta fila
+		this.buttonPanel.add(this.potencia);
+		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
 		setFeaturesButton(this.equal, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.reset);
@@ -263,6 +270,7 @@ public class Engine implements ActionListener {
 		this.reset.addActionListener(this);
 		this.delete.addActionListener(this);
 		this.raiz.addActionListener(this);
+		this.potencia.addActionListener(this);
 
 	}
 
@@ -286,6 +294,9 @@ public class Engine implements ActionListener {
 		case '√':
 			this.result = (int) Math.sqrt(this.num1);
 			break;
+		case '^':
+			this.result = (int) Math.pow(this.num1, this.num2);
+			break;
 		default:
 			break;
 
@@ -307,7 +318,8 @@ public class Engine implements ActionListener {
 
 		String texto = this.display.getText();
 		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d)";
+		String regex = "(-?\\d+)([+-X/^])(-?\\d)";
+		// Expresion regular especial para la raiz cuadrada
 		String regexRaiz = "(-?√)(\\d+)";
 		Pattern pattern = Pattern.compile(regex);
 		Pattern patternRaiz = Pattern.compile(regexRaiz);
@@ -337,13 +349,12 @@ public class Engine implements ActionListener {
 
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
-			if(this.operation == '/' && this.num2 == 0) {
+			if (this.operation == '/' && this.num2 == 0) {
 				this.display.setText("ERROR");
-			}else {
+			} else {
 				operation();
 				this.display.setText(String.valueOf(this.result));
 			}
-			
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete)) {
