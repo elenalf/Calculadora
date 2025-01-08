@@ -140,7 +140,7 @@ public class Engine implements ActionListener {
 		this.display.setPreferredSize(new Dimension(800, 150));
 		this.display.setHorizontalAlignment(JTextField.RIGHT);
 		this.display.setEditable(false);
-
+		
 		/*
 		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
 		 * - cursiva, 3 - negrita + cursiva)
@@ -270,29 +270,6 @@ public class Engine implements ActionListener {
 	 * Metodo que realiza las operaciones y divide el display en los operandos
 	 */
 	public void operation() {
-		
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d)";
-		String regexRaiz = "(-?√)(\\d+)";
-		Pattern pattern = Pattern.compile(regex);
-		Pattern patternRaiz = Pattern.compile(regexRaiz);
-		Matcher matcher = pattern.matcher(texto);
-		Matcher matcherRaiz = patternRaiz.matcher(texto);
-
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-
-		} else if (matcherRaiz.matches()) {
-			System.out.println(matcherRaiz.group(1) + matcherRaiz.group(2));
-			this.operation = matcherRaiz.group(1).charAt(0);
-			this.num1 = Integer.parseInt(matcherRaiz.group(2));
-
-		} else {
-			this.result = 0;
-		}
 		switch (this.operation) {
 		case '+':
 			this.result = this.num1 + this.num2;
@@ -328,6 +305,29 @@ public class Engine implements ActionListener {
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
 
+		String texto = this.display.getText();
+		// Expresion regular para separar el texto del display
+		String regex = "(-?\\d+)([+-X/])(-?\\d)";
+		String regexRaiz = "(-?√)(\\d+)";
+		Pattern pattern = Pattern.compile(regex);
+		Pattern patternRaiz = Pattern.compile(regexRaiz);
+		Matcher matcher = pattern.matcher(texto);
+		Matcher matcherRaiz = patternRaiz.matcher(texto);
+
+		if (matcher.matches()) {
+			this.num1 = Integer.parseInt(matcher.group(1));
+			this.operation = matcher.group(2).charAt(0);
+			this.num2 = Integer.parseInt(matcher.group(3));
+
+		} else if (matcherRaiz.matches()) {
+			System.out.println(matcherRaiz.group(1) + matcherRaiz.group(2));
+			this.operation = matcherRaiz.group(1).charAt(0);
+			this.num1 = Integer.parseInt(matcherRaiz.group(2));
+
+		} else {
+			this.result = 0;
+		}
+
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("");
@@ -337,8 +337,13 @@ public class Engine implements ActionListener {
 
 			// El usuario pulsa equal
 		} else if (source.equals(this.equal)) {
-			operation();
-			this.display.setText(String.valueOf(this.result));
+			if(this.operation == '/' && this.num2 == 0) {
+				this.display.setText("ERROR");
+			}else {
+				operation();
+				this.display.setText(String.valueOf(this.result));
+			}
+			
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete)) {
