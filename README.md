@@ -50,9 +50,25 @@ Este proyecto tiene una estructura bastante sencilla.
 - Engine.java: Es la clase donde se almacena toda la lógica de la calculadora
 
 # Ejemplo de Operaciones
-![Primera Operacion](media/operation_1.png)
+Primera operación: 
+![Primera Operacion](media/operacion_1.png)
 
-![Resultado Operación 1](media/operation_2.png)
+![Resultado Operación 1](media/resultado_1.png)
+
+Segunda operación:
+![Segunda Operación](media/operacion_2.png)
+
+![Resultado Operación 2](media/resultado_2.png)
+
+Tercera operación:
+![Tercera Operación](media/operacion_3.png)
+
+![Resultado Operación 3](media/resultado_3.png)
+
+Cuarta operación:
+![Cuarta Operación](media/operacion_4.png)
+
+![Resultado Operación 4](media/resultado_4.png)
 
 # Autora 👤
 Creado por *Elena López Félix*
