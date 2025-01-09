@@ -350,7 +350,6 @@ public class Engine implements ActionListener {
 			this.num2 = Integer.parseInt(matcher.group(3));
 
 		} else if (matcherRaiz.matches()) {
-			System.out.println(matcherRaiz.group(1) + matcherRaiz.group(2));
 			this.operation = matcherRaiz.group(1).charAt(0);
 			this.num1 = Integer.parseInt(matcherRaiz.group(2));
 
