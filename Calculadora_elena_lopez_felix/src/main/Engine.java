@@ -123,13 +123,17 @@ public class Engine implements ActionListener {
 
 		this.reset = new JButton("C");
 
-		this.delete = new JButton("←");
+		this.delete = new JButton("<-");
 
 		this.raiz = new JButton("√");
 
 		this.potencia = new JButton("^");
 
 		this.factorial = new JButton("!");
+
+		this.num1 = 0;
+		this.num2 = 0;
+		this.result = 0;
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -298,7 +302,7 @@ public class Engine implements ActionListener {
 		case '/':
 			this.result = this.num1 / this.num2;
 			break;
-		case '√':
+		case '\u221A':
 			this.result = (int) Math.sqrt(this.num1);
 			break;
 		case '^':
@@ -384,7 +388,14 @@ public class Engine implements ActionListener {
 		}
 	}
 
-	public Integer factorial(int num) {
+	/**
+	 * Metodo para calcular el factorial de un numero, sirve para efectuar la
+	 * operacion del factorial
+	 * 
+	 * @param num es el numero del que se quiere calcular el factorial (this.num1)
+	 * @return devuelve el resultado del factorial (this.result)
+	 */
+	public int factorial(int num) {
 		int factorial = 1;
 		for (int i = num; i > 0; i--) {
 			factorial *= i;
