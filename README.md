@@ -22,7 +22,7 @@ Interfaz gráfica creada con Swing.
 
     - Factorial (!)
 
-- Campo de texto para ingresar los números y el resultado.
+- Botones para ingresar los números y el resultado.
 
 - Botones para cada operación y para borrar los valores ingresados.
 
