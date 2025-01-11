@@ -334,7 +334,7 @@ public class Engine implements ActionListener {
 		// Expresion regular para separar el texto del display
 		String regex = "(-?\\d+)([+-X/^])(-?\\d)";
 		// Expresion regular especial para la raiz cuadrada
-		String regexRaiz = "(-?√)(\\d+)";
+		String regexRaiz = "(√)(\\d+)";
 		// Expresion regular especial para el factorial
 		String regexFactorial = "(\\d+)(!)";
 		Pattern pattern = Pattern.compile(regex);
