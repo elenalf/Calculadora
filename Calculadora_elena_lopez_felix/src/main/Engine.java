@@ -87,6 +87,7 @@ public class Engine implements ActionListener {
 	private JButton nB;
 	private JButton nC;
 	private JButton owner;
+	private JTextField baseActual;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -96,7 +97,6 @@ public class Engine implements ActionListener {
 	// Almacenar temporalmente ciertos valores
 	private int num1, num2, result;
 	private char operation;
-	private String baseActual;
 
 	/**
 	 * Constructora
@@ -197,10 +197,11 @@ public class Engine implements ActionListener {
 
 		this.owner = new JButton("Owner");
 
+		this.baseActual = new JTextField();
+
 		this.num1 = 0;
 		this.num2 = 0;
 		this.result = 0;
-		this.baseActual = "";
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -226,6 +227,12 @@ public class Engine implements ActionListener {
 		this.display.setFont(new Font("Source Code Pro", 2, 40));
 		this.display.setForeground(Color.BLACK);
 
+		this.baseActual.setFont(new Font("Source Code Pro", 2, 20));
+		this.baseActual.setForeground(Color.BLACK);
+		this.baseActual.setPreferredSize(new Dimension(200, 50));
+		this.baseActual.setEditable(false);
+		this.baseActual.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
 		// Configuracion del panel principal
 		this.contentPanel.setLayout(new BorderLayout());
 
@@ -237,7 +244,8 @@ public class Engine implements ActionListener {
 		this.buttonPanel.setLayout(new GridLayout(8, 4));
 
 		// Configuración del panel de informacion. (Panel Norte)
-		this.infoPanel.setLayout(new GridLayout(2, 1));
+		this.infoPanel.setLayout(new GridLayout(1, 2));
+		this.basePanel.add(this.baseActual);
 		this.infoPanel.add(this.basePanel, BorderLayout.WEST);
 		this.brandPanel.add(this.brand);
 		setFeaturesButton(this.brand, ButtonType.BRAND);
@@ -356,26 +364,32 @@ public class Engine implements ActionListener {
 		case REGULAR:
 			_button.setBackground(new Color(255, 164, 99)); // Color 4
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 		case OPERATOR:
 			_button.setBackground(new Color(253, 216, 110)); // Color 3
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 		case BASE:
 			_button.setBackground(new Color(251, 96, 102)); // Color 1
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 		case BRAND:
 			_button.setBackground(new Color(212, 206, 95)); // Color 6
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 		case LETRAS:
 			_button.setBackground(new Color(246, 107, 64)); // Color 5
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 		case OTRO:
 			_button.setBackground(new Color(255, 239, 193)); // Color 2
 			_button.setFont(new Font("Source Code Pro", 0, 25));
+			_button.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 			break;
 
 		}
@@ -502,6 +516,7 @@ public class Engine implements ActionListener {
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("");
+			this.baseActual.setText("Elige una base");
 			this.result = 0;
 			this.num1 = 0;
 			this.num2 = 0;
@@ -524,7 +539,7 @@ public class Engine implements ActionListener {
 			}
 
 			// El usuario pulsa el boton de la marca de la calculadora
-		} else if(source.equals(this.brand)) {
+		} else if (source.equals(this.brand)) {
 			try {
 				Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
 			} catch (IOException e1) {
@@ -533,6 +548,37 @@ public class Engine implements ActionListener {
 			} catch (URISyntaxException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
+			}
+			// El usuario pulsa el boton de base binaria
+		} else if (source.equals(this.baseBinaria)) {
+			if(this.baseActual.getText().length() > 0) {
+				this.baseActual.setText("");
+			}else {
+				this.baseActual.setText("Base: binaria");
+			}
+			
+			// El usuario pulsa el boton de la base decimal
+		} else if (source.equals(this.baseDecimal)) {
+			if(this.baseActual.getText().length() > 0) {
+				this.baseActual.setText("");
+			}else {
+				this.baseActual.setText("Base: decimal");
+			}
+			
+			// El usuario pulsa el boton de la base octal
+		} else if (source.equals(this.baseOctal)) {
+			if(this.baseActual.getText().length() > 0) {
+				this.baseActual.setText("");
+			}else {
+				this.baseActual.setText("Base: octal");
+			}
+			
+			// El usuario pulsa el boton de la base hexadecimal
+		} else if (source.equals(this.baseHexa)) {
+			if(this.baseActual.getText().length() > 0) {
+				this.baseActual.setText("");
+			}else {
+				this.baseActual.setText("Base: hexadecimal");
 			}
 			
 			// El usuario pulsa cualquier otro boton
