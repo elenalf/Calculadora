@@ -551,36 +551,44 @@ public class Engine implements ActionListener {
 			}
 			// El usuario pulsa el boton de base binaria
 		} else if (source.equals(this.baseBinaria)) {
-			if(this.baseActual.getText().length() > 0) {
+			if (this.baseActual.getText().length() > 0) {
 				this.baseActual.setText("");
-			}else {
+			} else {
 				this.baseActual.setText("Base: binaria");
 			}
-			
+
 			// El usuario pulsa el boton de la base decimal
 		} else if (source.equals(this.baseDecimal)) {
-			if(this.baseActual.getText().length() > 0) {
+			if (this.baseActual.getText().length() > 0) {
 				this.baseActual.setText("");
-			}else {
+			} else {
 				this.baseActual.setText("Base: decimal");
 			}
-			
+
 			// El usuario pulsa el boton de la base octal
 		} else if (source.equals(this.baseOctal)) {
-			if(this.baseActual.getText().length() > 0) {
+			if (this.baseActual.getText().length() > 0) {
 				this.baseActual.setText("");
-			}else {
+			} else {
 				this.baseActual.setText("Base: octal");
 			}
-			
+
 			// El usuario pulsa el boton de la base hexadecimal
 		} else if (source.equals(this.baseHexa)) {
-			if(this.baseActual.getText().length() > 0) {
+			if (this.baseActual.getText().length() > 0) {
 				this.baseActual.setText("");
-			}else {
+			} else {
 				this.baseActual.setText("Base: hexadecimal");
 			}
+			// El usuario pulsa el boton de owner
+		} else if (source.equals(this.owner)) {
+			VentanaEmergente pop = new VentanaEmergente("Esta calculadora es propiedad de Elena López Félix");
 			
+			// El usuario pulsa el boton de info
+		} else if(source.equals(this.info)) {
+			VentanaEmergente pop = new VentanaEmergente("Esta calculadora ha sido realizada en la asignatura de Desarrollo de Interfaces");
+			
+
 			// El usuario pulsa cualquier otro boton
 		} else {
 			this.display.setText(this.display.getText() + input_text);
