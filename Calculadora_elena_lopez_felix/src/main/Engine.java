@@ -229,7 +229,7 @@ public class Engine implements ActionListener {
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
-		this.buttonPanel.setLayout(new GridLayout(5, 4));
+		this.buttonPanel.setLayout(new GridLayout(8, 4));
 
 		// Configuración del panel de informacion. (Panel Norte)
 		this.infoPanel.setLayout(new GridLayout(2, 1));
@@ -239,16 +239,56 @@ public class Engine implements ActionListener {
 		this.infoPanel.add(this.brandPanel, BorderLayout.EAST);
 
 		// Primera fila
+		this.buttonPanel.add(this.baseBinaria);
+		setFeaturesButton(this.baseBinaria, ButtonType.BASE);
+		this.buttonPanel.add(this.baseOctal);
+		setFeaturesButton(this.baseOctal, ButtonType.BASE);
+		this.buttonPanel.add(this.baseDecimal);
+		setFeaturesButton(this.baseDecimal, ButtonType.BASE);
+		this.buttonPanel.add(this.baseHexa);
+		setFeaturesButton(this.baseHexa, ButtonType.BASE);
+
+		// Segunda fila
+		this.buttonPanel.add(this.nD);
+		setFeaturesButton(this.nD, ButtonType.LETRAS);
+		this.buttonPanel.add(this.nE);
+		setFeaturesButton(this.nE, ButtonType.LETRAS);
+		this.buttonPanel.add(this.nF);
+		setFeaturesButton(this.nF, ButtonType.LETRAS);
+		this.buttonPanel.add(this.info);
+		setFeaturesButton(this.info, ButtonType.OTRO);
+
+		// Tercera fila
+		this.buttonPanel.add(this.nA);
+		setFeaturesButton(this.nA, ButtonType.LETRAS);
+		this.buttonPanel.add(this.nB);
+		setFeaturesButton(this.nB, ButtonType.LETRAS);
+		this.buttonPanel.add(this.nC);
+		setFeaturesButton(this.nC, ButtonType.LETRAS);
+		this.buttonPanel.add(this.owner);
+		setFeaturesButton(this.owner, ButtonType.OTRO);
+
+		// Cuarta fila
+		this.buttonPanel.add(this.raiz);
+		setFeaturesButton(this.raiz, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.potencia);
+		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.factorial);
+		setFeaturesButton(this.factorial, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.divide);
+		setFeaturesButton(this.divide, ButtonType.OPERATOR);
+
+		// Quinta fila
 		this.buttonPanel.add(this.n7);
 		setFeaturesButton(this.n7, ButtonType.REGULAR);
 		this.buttonPanel.add(this.n8);
 		setFeaturesButton(this.n8, ButtonType.REGULAR);
 		this.buttonPanel.add(this.n9);
 		setFeaturesButton(this.n9, ButtonType.REGULAR);
-		this.buttonPanel.add(this.add);
-		setFeaturesButton(this.add, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.multiply);
+		setFeaturesButton(this.multiply, ButtonType.OPERATOR);
 
-		// Segunda fila
+		// Sexta fila
 		this.buttonPanel.add(this.n4);
 		setFeaturesButton(this.n4, ButtonType.REGULAR);
 		this.buttonPanel.add(this.n5);
@@ -258,35 +298,25 @@ public class Engine implements ActionListener {
 		this.buttonPanel.add(this.subtract);
 		setFeaturesButton(this.subtract, ButtonType.OPERATOR);
 
-		// Tercera fila
+		// Septima fila
 		this.buttonPanel.add(this.n1);
 		setFeaturesButton(this.n1, ButtonType.REGULAR);
 		this.buttonPanel.add(this.n2);
 		setFeaturesButton(this.n2, ButtonType.REGULAR);
 		this.buttonPanel.add(this.n3);
 		setFeaturesButton(this.n3, ButtonType.REGULAR);
-		this.buttonPanel.add(this.multiply);
-		setFeaturesButton(this.multiply, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.add);
+		setFeaturesButton(this.add, ButtonType.OPERATOR);
 
-		// Cuarta fila
+		// Octava fila
+		this.buttonPanel.add(this.reset);
+		setFeaturesButton(this.reset, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.n0);
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		this.buttonPanel.add(this.delete);
 		setFeaturesButton(this.delete, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.raiz);
-		setFeaturesButton(this.raiz, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.divide);
-		setFeaturesButton(this.divide, ButtonType.OPERATOR);
-
-		// Quinta fila
-		this.buttonPanel.add(this.factorial);
-		setFeaturesButton(this.factorial, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.reset);
-		setFeaturesButton(this.reset, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
 		setFeaturesButton(this.equal, ButtonType.OPERATOR);
-		this.buttonPanel.add(this.potencia);
-		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.CENTER);
@@ -300,7 +330,7 @@ public class Engine implements ActionListener {
 		// Propiedades de la ventana
 		this.frame.add(this.contentPanel);
 		this.frame.setLocation(200, 200);
-		this.frame.setSize(500, 500);
+		this.frame.setSize(500, 650);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -372,7 +402,20 @@ public class Engine implements ActionListener {
 		this.raiz.addActionListener(this);
 		this.potencia.addActionListener(this);
 		this.factorial.addActionListener(this);
-
+		// V2.0
+		this.brand.addActionListener(this);
+		this.baseBinaria.addActionListener(this);
+		this.baseOctal.addActionListener(this);
+		this.baseDecimal.addActionListener(this);
+		this.baseHexa.addActionListener(this);
+		this.nD.addActionListener(this);
+		this.nE.addActionListener(this);
+		this.nF.addActionListener(this);
+		this.info.addActionListener(this);
+		this.nA.addActionListener(this);
+		this.nB.addActionListener(this);
+		this.nC.addActionListener(this);
+		this.owner.addActionListener(this);
 	}
 
 	/**
