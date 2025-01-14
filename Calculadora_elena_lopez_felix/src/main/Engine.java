@@ -1,12 +1,14 @@
 package main;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +16,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.awt.Desktop;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Clase Engine
@@ -518,6 +523,18 @@ public class Engine implements ActionListener {
 				this.display.setText("");
 			}
 
+			// El usuario pulsa el boton de la marca de la calculadora
+		} else if(source.equals(this.brand)) {
+			try {
+				Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			// El usuario pulsa cualquier otro boton
 		} else {
 			this.display.setText(this.display.getText() + input_text);
