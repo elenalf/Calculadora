@@ -438,9 +438,40 @@ public class Engine implements ActionListener {
 	}
 
 	/**
-	 * Metodo que realiza las operaciones y divide el display en los operandos
+	 * Metodo que realiza las operaciones y divide el display en los operandos. En
+	 * la base Decimal
 	 */
-	public void operation() {
+	public void operation_Decimal() {
+		String texto = this.display.getText();
+		// Expresion regular para separar el texto del display
+		String regex = "(-?\\d+)([+-X/^])(-?\\d)";
+		// Expresion regular especial para la raiz cuadrada
+		String regexRaiz = "(√)(\\d+)";
+		// Expresion regular especial para el factorial
+		String regexFactorial = "(\\d+)(!)";
+		Pattern pattern = Pattern.compile(regex);
+		Pattern patternRaiz = Pattern.compile(regexRaiz);
+		Pattern patternFactorial = Pattern.compile(regexFactorial);
+		Matcher matcher = pattern.matcher(texto);
+		Matcher matcherRaiz = patternRaiz.matcher(texto);
+		Matcher matcherFactorial = patternFactorial.matcher(texto);
+
+		if (matcher.matches()) {
+			this.num1 = Integer.parseInt(matcher.group(1));
+			this.operation = matcher.group(2).charAt(0);
+			this.num2 = Integer.parseInt(matcher.group(3));
+
+		} else if (matcherRaiz.matches()) {
+			this.operation = matcherRaiz.group(1).charAt(0);
+			this.num1 = Integer.parseInt(matcherRaiz.group(2));
+
+		} else if (matcherFactorial.matches()) {
+			this.num1 = Integer.parseInt(matcherFactorial.group(1));
+			this.operation = matcherFactorial.group(2).charAt(0);
+
+		} else {
+			this.result = 0;
+		}
 		switch (this.operation) {
 		case '+':
 			this.result = this.num1 + this.num2;
@@ -481,38 +512,6 @@ public class Engine implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		String input_text = e.getActionCommand();
-
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/^])(-?\\d)";
-		// Expresion regular especial para la raiz cuadrada
-		String regexRaiz = "(√)(\\d+)";
-		// Expresion regular especial para el factorial
-		String regexFactorial = "(\\d+)(!)";
-		Pattern pattern = Pattern.compile(regex);
-		Pattern patternRaiz = Pattern.compile(regexRaiz);
-		Pattern patternFactorial = Pattern.compile(regexFactorial);
-		Matcher matcher = pattern.matcher(texto);
-		Matcher matcherRaiz = patternRaiz.matcher(texto);
-		Matcher matcherFactorial = patternFactorial.matcher(texto);
-
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-
-		} else if (matcherRaiz.matches()) {
-			this.operation = matcherRaiz.group(1).charAt(0);
-			this.num1 = Integer.parseInt(matcherRaiz.group(2));
-
-		} else if (matcherFactorial.matches()) {
-			this.num1 = Integer.parseInt(matcherFactorial.group(1));
-			this.operation = matcherFactorial.group(2).charAt(0);
-
-		} else {
-			this.result = 0;
-		}
-
 		// El usuario pulsa reset
 		if (source.equals(this.reset)) {
 			this.display.setText("");
@@ -521,14 +520,33 @@ public class Engine implements ActionListener {
 			this.num1 = 0;
 			this.num2 = 0;
 
-			// El usuario pulsa equal
-		} else if (source.equals(this.equal)) {
+			// El usuario pulsa equal con la base decimal
+		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: decimal") {
 			if (this.operation == '/' && this.num2 == 0) {
 				this.display.setText("ERROR");
 			} else {
-				operation();
+				operation_Decimal();
 				this.display.setText(String.valueOf(this.result));
 			}
+
+			// El usuario pulsa equal con la base binaria
+		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: binaria") {
+			// operation_Binaria();
+			this.display.setText(String.valueOf(this.result));
+
+			// El usuario pulsa equal con la base octal
+		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: octal") {
+			// operation_Octal();
+			this.display.setText(String.valueOf(this.result));
+
+			// El usuario pulsa equal con la base hexadecimal
+		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: hexadecimal") {
+			// operation_Hexa();
+			this.display.setText(String.valueOf(this.result));
+
+			// El usuario pulsa equal sin base seleccionada
+		} else if (source.equals(this.equal) && this.baseActual.getText().length() == 0) {
+			this.display.setText("Error: seleccione base");
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete)) {
@@ -583,11 +601,11 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de owner
 		} else if (source.equals(this.owner)) {
 			VentanaEmergente pop = new VentanaEmergente("Esta calculadora es propiedad de Elena López Félix");
-			
+
 			// El usuario pulsa el boton de info
-		} else if(source.equals(this.info)) {
-			VentanaEmergente pop = new VentanaEmergente("Esta calculadora ha sido realizada en la asignatura de Desarrollo de Interfaces");
-			
+		} else if (source.equals(this.info)) {
+			VentanaEmergente pop = new VentanaEmergente(
+					"Esta calculadora se ha hecho en la asignatura de Desarrollo de Interfaces");
 
 			// El usuario pulsa cualquier otro boton
 		} else {
