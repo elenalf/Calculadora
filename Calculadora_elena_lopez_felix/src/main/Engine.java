@@ -501,6 +501,39 @@ public class Engine implements ActionListener {
 
 	}
 
+	public void operation_Binaria() {
+		String texto = this.display.getText();
+		// Expresion regular para separar el texto del display
+		String regex = "(-?\\d+)([+-X/])(-?\\d)";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(texto);
+
+		if (matcher.matches()) {
+			this.num1 = Integer.parseInt(matcher.group(1));
+			this.operation = matcher.group(2).charAt(0);
+			this.num2 = Integer.parseInt(matcher.group(3));
+			switch (this.operation) {
+			case '+':
+				this.result = this.num1 + this.num2;
+				break;
+			case '-':
+				this.result = this.num1 - this.num2;
+				break;
+			case 'X':
+				this.result = this.num1 * this.num2;
+				break;
+			case '/':
+				this.result = this.num1 / this.num2;
+				break;
+			default:
+				break;
+			}
+		} else {
+			this.result = 0;
+		}
+
+	}
+
 	/**
 	 * Metodo que se encarga de obtener la informacion que haya en el display y
 	 * llamar al metodo operation() para ejecutar dicha operacion
@@ -521,32 +554,33 @@ public class Engine implements ActionListener {
 			this.num2 = 0;
 
 			// El usuario pulsa equal con la base decimal
-		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: decimal") {
-			if (this.operation == '/' && this.num2 == 0) {
-				this.display.setText("ERROR");
-			} else {
-				operation_Decimal();
+		} else if (source.equals(this.equal)) {
+			switch (this.baseActual.getText()) {
+			case "Base: decimal":
+				if (this.operation == '/' && this.num2 == 0) {
+					this.display.setText("ERROR");
+				} else {
+					operation_Decimal();
+					this.display.setText(String.valueOf(this.result));
+				}
+				break;
+			case "Base: binaria":
+				operation_Binaria();
+				String resultado = Integer.toBinaryString(this.result);
+				System.out.println(resultado);
+				this.display.setText(String.valueOf(resultado));
+				break;
+			case "Base: octal":
+				// operation_Octal();
 				this.display.setText(String.valueOf(this.result));
+				break;
+			case "Base: hexadecimal":
+				// operation_Hexa();
+				this.display.setText(String.valueOf(this.result));
+				break;
+			default:
+				this.display.setText("");
 			}
-
-			// El usuario pulsa equal con la base binaria
-		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: binaria") {
-			// operation_Binaria();
-			this.display.setText(String.valueOf(this.result));
-
-			// El usuario pulsa equal con la base octal
-		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: octal") {
-			// operation_Octal();
-			this.display.setText(String.valueOf(this.result));
-
-			// El usuario pulsa equal con la base hexadecimal
-		} else if (source.equals(this.equal) && this.baseActual.getText() == "Base: hexadecimal") {
-			// operation_Hexa();
-			this.display.setText(String.valueOf(this.result));
-
-			// El usuario pulsa equal sin base seleccionada
-		} else if (source.equals(this.equal) && this.baseActual.getText().length() == 0) {
-			this.display.setText("Error: seleccione base");
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete)) {
