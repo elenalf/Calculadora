@@ -28,8 +28,17 @@ public class Engine implements ActionListener {
 	// Panel general que ocupa toda la ventana
 	private JPanel contentPanel;
 
-	// Panel norte que contiene el display
+	// Panel central que contiene el display
 	private JPanel displayPanel;
+
+	// Panel norte que contiene informacion sobre la calculadora
+	private JPanel infoPanel;
+
+	// Panel izquierdo de infoPanel, indica la base en la que se esta operando
+	private JPanel basePanel;
+
+	// Panel derecho de infoPanel, indica la marca de la calculadora
+	private JPanel brandPanel;
 
 	// Panel sur que contiene los botones
 	private JPanel buttonPanel;
@@ -37,7 +46,7 @@ public class Engine implements ActionListener {
 	// Display
 	private JTextField display;
 
-	// Botones
+	// Botones V1.0
 	private JButton n0;
 	private JButton n1;
 	private JButton n2;
@@ -54,20 +63,35 @@ public class Engine implements ActionListener {
 	private JButton add;
 	private JButton equal;
 	private JButton reset;
-	// Nuevas funcionalidades
+	// Nuevas funcionalidades V1.0
 	private JButton delete;
 	private JButton raiz;
 	private JButton potencia;
 	private JButton factorial;
+	// Botones V2.0
+	private JButton brand;
+	private JButton baseBinaria;
+	private JButton baseOctal;
+	private JButton baseDecimal;
+	private JButton baseHexa;
+	private JButton nD;
+	private JButton nE;
+	private JButton nF;
+	private JButton info;
+	private JButton nA;
+	private JButton nB;
+	private JButton nC;
+	private JButton owner;
 
 	// Tipos de boton
 	private enum ButtonType {
-		REGULAR, OPERATOR
+		REGULAR, OPERATOR, BASE, BRAND, LETRAS, OTRO
 	};
 
 	// Almacenar temporalmente ciertos valores
 	private int num1, num2, result;
 	private char operation;
+	private String baseActual;
 
 	/**
 	 * Constructora
@@ -80,16 +104,26 @@ public class Engine implements ActionListener {
 		// Inicializacion del panel que ocupa toda la ventana
 		this.contentPanel = new JPanel();
 
-		// Inicializacion del panel que contiene el display. (Panel Norte)
+		// Inicializacion del panel que contiene el display. (Panel Central)
 		this.displayPanel = new JPanel();
 
 		// Inicializacion del panel que contiene los botones. (Panel Sur)
 		this.buttonPanel = new JPanel();
 
+		// Inicialización del panel que contiene información de la calculadora (Panel
+		// Norte)
+		this.infoPanel = new JPanel();
+
+		// Inicialización del panel izquierdo del infoPanel
+		this.basePanel = new JPanel();
+
+		// Inicialización del panel derecho del infoPanel
+		this.brandPanel = new JPanel();
+
 		// Inicializacion del display que actua como la pantalla de la calculadora
 		this.display = new JTextField();
 
-		// Inicializacion de los botones de numeros
+		// Inicializacion de los botones V1.0
 		this.n0 = new JButton("0");
 
 		this.n1 = new JButton("1");
@@ -110,7 +144,6 @@ public class Engine implements ActionListener {
 
 		this.n9 = new JButton("9");
 
-		// Inicializacion de los botones de acciones
 		this.divide = new JButton("/");
 
 		this.multiply = new JButton("X");
@@ -123,7 +156,7 @@ public class Engine implements ActionListener {
 
 		this.reset = new JButton("C");
 
-		this.delete = new JButton("<-");
+		this.delete = new JButton("<");
 
 		this.raiz = new JButton("√");
 
@@ -131,9 +164,38 @@ public class Engine implements ActionListener {
 
 		this.factorial = new JButton("!");
 
+		// Inicializacion de los botones V2.0
+
+		this.brand = new JButton("CASIO");
+
+		this.baseBinaria = new JButton("B2");
+
+		this.baseOctal = new JButton("B8");
+
+		this.baseDecimal = new JButton("B10");
+
+		this.baseHexa = new JButton("B16");
+
+		this.nD = new JButton("D");
+
+		this.nE = new JButton("E");
+
+		this.nF = new JButton("F");
+
+		this.nA = new JButton("A");
+
+		this.nB = new JButton("B");
+
+		this.nC = new JButton("C");
+
+		this.info = new JButton("Info");
+
+		this.owner = new JButton("Owner");
+
 		this.num1 = 0;
 		this.num2 = 0;
 		this.result = 0;
+		this.baseActual = "";
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -156,18 +218,25 @@ public class Engine implements ActionListener {
 		 * Font(nombre de la fuente, estilo de la fuente (0 - sin estilo, 1 - negrita, 2
 		 * - cursiva, 3 - negrita + cursiva)
 		 */
-		this.display.setFont(new Font("Calibri", 2, 50));
+		this.display.setFont(new Font("Source Code Pro", 2, 40));
 		this.display.setForeground(Color.BLACK);
 
 		// Configuracion del panel principal
 		this.contentPanel.setLayout(new BorderLayout());
 
-		// Configuracion del panel que contiene el display. (Panel Norte)
+		// Configuracion del panel que contiene el display. (Panel Central)
 		this.displayPanel.setLayout(new GridLayout(1, 1));
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
 		this.buttonPanel.setLayout(new GridLayout(5, 4));
+
+		// Configuración del panel de informacion. (Panel Norte)
+		this.infoPanel.setLayout(new GridLayout(2, 1));
+		this.infoPanel.add(this.basePanel, BorderLayout.WEST);
+		this.brandPanel.add(this.brand);
+		setFeaturesButton(this.brand, ButtonType.BRAND);
+		this.infoPanel.add(this.brandPanel, BorderLayout.EAST);
 
 		// Primera fila
 		this.buttonPanel.add(this.n7);
@@ -220,15 +289,18 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.potencia, ButtonType.OPERATOR);
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
-		this.contentPanel.add(this.displayPanel, BorderLayout.NORTH);
+		this.contentPanel.add(this.displayPanel, BorderLayout.CENTER);
 
 		// Insertar el panel que contiene los botones (Panel Sur) al panel principal
 		this.contentPanel.add(this.buttonPanel, BorderLayout.SOUTH);
 
+		// Insertar el panel que contiene la info (Panel Norte) al panel principal
+		this.contentPanel.add(this.infoPanel, BorderLayout.NORTH);
+
 		// Propiedades de la ventana
 		this.frame.add(this.contentPanel);
 		this.frame.setLocation(200, 200);
-		this.frame.setSize(450, 395);
+		this.frame.setSize(500, 500);
 		this.frame.setVisible(true);
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -245,13 +317,31 @@ public class Engine implements ActionListener {
 	 *                las caracteristicas
 	 */
 	public void setFeaturesButton(JButton _button, ButtonType _type) {
-		if (_type.equals(ButtonType.REGULAR)) {
-			_button.setBackground(Color.MAGENTA);
-			_button.setFont(new Font("Calibri", 1, 25));
-
-		} else {
-			_button.setBackground(Color.CYAN);
-			_button.setFont(new Font("Calibri", 1, 25));
+		switch (_type) {
+		case REGULAR:
+			_button.setBackground(new Color(255, 164, 99)); // Color 4
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
+		case OPERATOR:
+			_button.setBackground(new Color(253, 216, 110)); // Color 3
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
+		case BASE:
+			_button.setBackground(new Color(251, 96, 102)); // Color 1
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
+		case BRAND:
+			_button.setBackground(new Color(212, 206, 95)); // Color 6
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
+		case LETRAS:
+			_button.setBackground(new Color(246, 107, 64)); // Color 5
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
+		case OTRO:
+			_button.setBackground(new Color(255, 239, 193)); // Color 2
+			_button.setFont(new Font("Source Code Pro", 0, 25));
+			break;
 
 		}
 
@@ -379,7 +469,11 @@ public class Engine implements ActionListener {
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete)) {
-			this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
+			if (this.display.getText().length() > 0) {
+				this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
+			} else {
+				this.display.setText("");
+			}
 
 			// El usuario pulsa cualquier otro boton
 		} else {
