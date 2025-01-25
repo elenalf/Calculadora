@@ -705,7 +705,9 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de base binaria
 		} else if (source.equals(this.baseBinaria)) {
 			if (this.baseActual.getText().length() > 0) {
-				this.baseActual.setText("");
+				int texto_display = Integer.valueOf(this.display.getText());
+				String texto_nuevo = Integer.toBinaryString(texto_display);
+				this.display.setText(texto_nuevo);
 			} else {
 				this.baseActual.setText("Base: binaria");
 			}
@@ -713,7 +715,8 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de la base decimal
 		} else if (source.equals(this.baseDecimal)) {
 			if (this.baseActual.getText().length() > 0) {
-				this.baseActual.setText("");
+				int texto_nuevo = Integer.parseInt(this.display.getText());
+				this.display.setText(String.valueOf(texto_nuevo));
 			} else {
 				this.baseActual.setText("Base: decimal");
 			}
@@ -721,7 +724,9 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de la base octal
 		} else if (source.equals(this.baseOctal)) {
 			if (this.baseActual.getText().length() > 0) {
-				this.baseActual.setText("");
+				int texto_display = Integer.valueOf(this.display.getText());
+				String texto_nuevo = Integer.toString(texto_display);
+				this.display.setText(texto_nuevo);
 			} else {
 				this.baseActual.setText("Base: octal");
 			}
@@ -729,7 +734,9 @@ public class Engine implements ActionListener {
 			// El usuario pulsa el boton de la base hexadecimal
 		} else if (source.equals(this.baseHexa)) {
 			if (this.baseActual.getText().length() > 0) {
-				this.baseActual.setText("");
+				int texto_display = Integer.valueOf(this.display.getText());
+				String texto_nuevo = Integer.toHexString(texto_display);
+				this.display.setText(texto_nuevo);
 			} else {
 				this.baseActual.setText("Base: hexadecimal");
 			}
