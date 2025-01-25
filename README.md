@@ -1,6 +1,7 @@
 # Calculadora
 Este proyecto es una calculadora gráfica desarrollada en **Java** utilizando la biblioteca *Swing*. La calculadora permite realizar operaciones básicas como suma, resta, multiplicación y división, proporcionando una interfaz amigable e interactiva.
 También te permite realizar operaciones con diferentes bases (Base decimal, binaria, octal y hexadecimal)
+
 ![Interfaz de la Calculadora](media/calculator.png)
 
 # Características ✨
