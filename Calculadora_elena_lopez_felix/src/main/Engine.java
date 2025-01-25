@@ -95,7 +95,8 @@ public class Engine implements ActionListener {
 	};
 
 	// Almacenar temporalmente ciertos valores
-	private int num1, num2, result;
+	private String num1, num2;
+	private int result;
 	private char operation;
 
 	/**
@@ -198,10 +199,6 @@ public class Engine implements ActionListener {
 		this.owner = new JButton("Owner");
 
 		this.baseActual = new JTextField();
-
-		this.num1 = 0;
-		this.num2 = 0;
-		this.result = 0;
 
 		// LLamada al metodo para configurar todos los componentes visuales
 		setSettings();
@@ -441,181 +438,207 @@ public class Engine implements ActionListener {
 	 * Metodo que realiza las operaciones y divide el display en los operandos. En
 	 * la base Decimal
 	 */
-	public void operation_Decimal() {
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/^])(-?\\d+)";
-		// Expresion regular especial para la raiz cuadrada
-		String regexRaiz = "(√)(\\d+)";
-		// Expresion regular especial para el factorial
-		String regexFactorial = "(\\d+)(!)";
-		Pattern pattern = Pattern.compile(regex);
-		Pattern patternRaiz = Pattern.compile(regexRaiz);
-		Pattern patternFactorial = Pattern.compile(regexFactorial);
-		Matcher matcher = pattern.matcher(texto);
-		Matcher matcherRaiz = patternRaiz.matcher(texto);
-		Matcher matcherFactorial = patternFactorial.matcher(texto);
+	public void operation() {
+		int num1 = 0;
+		int num2 = 0;
+		switch (this.baseActual.getText()) {
+		case "Base: decimal":
+			String texto = this.display.getText();
+			// Expresion regular para separar el texto del display
+			String regex = "(-?\\d+)([+-X/^])(-?\\d+)";
+			// Expresion regular especial para la raiz cuadrada
+			String regexRaiz = "(√)(\\d+)";
+			// Expresion regular especial para el factorial
+			String regexFactorial = "(\\d+)(!)";
+			Pattern pattern = Pattern.compile(regex);
+			Pattern patternRaiz = Pattern.compile(regexRaiz);
+			Pattern patternFactorial = Pattern.compile(regexFactorial);
+			Matcher matcher = pattern.matcher(texto);
+			Matcher matcherRaiz = patternRaiz.matcher(texto);
+			Matcher matcherFactorial = patternFactorial.matcher(texto);
 
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
+			if (matcher.matches()) {
+				this.num1 = matcher.group(1);
+				num1 = Integer.parseInt(this.num1);
+				this.operation = matcher.group(2).charAt(0);
+				this.num2 = matcher.group(3);
+				num2 = Integer.parseInt(this.num2);
 
-		} else if (matcherRaiz.matches()) {
-			this.operation = matcherRaiz.group(1).charAt(0);
-			this.num1 = Integer.parseInt(matcherRaiz.group(2));
+			} else if (matcherRaiz.matches()) {
+				this.operation = matcherRaiz.group(1).charAt(0);
+				this.num1 = matcherRaiz.group(2);
+				num1 = Integer.parseInt(this.num1);
 
-		} else if (matcherFactorial.matches()) {
-			this.num1 = Integer.parseInt(matcherFactorial.group(1));
-			this.operation = matcherFactorial.group(2).charAt(0);
+			} else if (matcherFactorial.matches()) {
+				this.num1 = matcherFactorial.group(1);
+				num1 = Integer.parseInt(this.num1);
+				this.operation = matcherFactorial.group(2).charAt(0);
 
-		} else {
-			this.result = 0;
-		}
-
-		switch (this.operation) {
-		case '+':
-			this.result = this.num1 + this.num2;
-			break;
-		case '-':
-			this.result = this.num1 - this.num2;
-			break;
-		case 'X':
-			this.result = this.num1 * this.num2;
-			break;
-		case '/':
-			if (this.num2 == 0) {
-				this.display.setText("Error: División entre 0");
 			} else {
-				this.result = this.num1 / this.num2;
+				this.result = 0;
+			}
+
+			switch (this.operation) {
+			case '+':
+				this.result = num1 + num2;
+				break;
+			case '-':
+				this.result = num1 - num2;
+				break;
+			case 'X':
+				this.result = num1 * num2;
+				break;
+			case '/':
+				if (num2 == 0) {
+					this.display.setText("Error: División entre 0");
+				} else {
+					this.result = num1 / num2;
+				}
+				break;
+			case '\u221A':
+				this.result = (int) Math.sqrt(num1);
+				break;
+			case '^':
+				this.result = (int) Math.pow(num1, num2);
+				break;
+			case '!':
+				this.result = factorial(num1);
+				break;
+			default:
+				break;
+
 			}
 			break;
-		case '\u221A':
-			this.result = (int) Math.sqrt(this.num1);
+		case "Base: binaria":
+			String texto_binario = this.display.getText();
+			String regex_binario = "([01]+)([+-X/])([01]+)";
+			Pattern pattern_binario = Pattern.compile(regex_binario);
+			Matcher matcher_binario = pattern_binario.matcher(texto_binario);
+			
+			if(matcher_binario.matches()) {
+				this.num1 = matcher_binario.group(1);
+				num1 = Integer.parseInt(this.num1, 2);
+				this.operation = matcher_binario.group(2).charAt(0);
+				this.num2 = matcher_binario.group(3);
+				num2 = Integer.parseInt(this.num2, 2);
+			}else {
+				this.result = 0;
+			}
+			
+			switch (this.operation) {
+			case '+':
+				this.result = num1 + num2;
+				break;
+			case '-':
+				this.result = num1 - num2;
+				break;
+			case 'X':
+				this.result = num1 * num2;
+				break;
+			case '/':
+				this.result = num1 / num2;
+				break;
+			default:
+				this.result = 0;
+			}
 			break;
-		case '^':
-			this.result = (int) Math.pow(this.num1, this.num2);
+		case "Base: octal":
+			String texto_octal = this.display.getText();
+			String regex_octal = "([01234567]+)([+-X/])([01234567]+)";
+			Pattern pattern_octal = Pattern.compile(regex_octal);
+			Matcher matcher_octal = pattern_octal.matcher(texto_octal);
+			
+			if(matcher_octal.matches()) {
+				this.num1 = matcher_octal.group(1);
+				num1 = Integer.parseInt(this.num1, 8);
+				this.operation = matcher_octal.group(2).charAt(0);
+				this.num2 = matcher_octal.group(3);
+				num2 = Integer.parseInt(this.num2, 8);
+			} else {
+				this.result = 0;
+			}
+			
+			switch (this.operation) {
+			case '+':
+				this.result = num1 + num2;
+				break;
+			case '-':
+				this.result = num1 - num2;
+				break;
+			case 'X':
+				this.result = num1 * num2;
+				break;
+			case '/':
+				this.result = num1 / num2;
+				break;
+			default:
+				this.result = 0;
+			}
 			break;
-		case '!':
-			this.result = factorial(this.num1);
+		case "Base: hexadecimal":
+			String texto_hexa = this.display.getText();
+			String regex_hexa = "([0123456789abcdef]+)([+-/x])(0123456789abcdef]+)";
+			Pattern pattern_hexa = Pattern.compile(regex_hexa);
+			Matcher matcher_hexa = pattern_hexa.matcher(texto_hexa);
+			
+			if(matcher_hexa.matches()) {
+				this.num1 = matcher_hexa.group(1);
+				num1 = Integer.parseInt(this.num1, 16);
+				this.operation = matcher_hexa.group(2).charAt(0);
+				this.num2 = matcher_hexa.group(3);
+				num2 = Integer.parseInt(this.num2, 16);
+			} else {
+				this.result = 0;
+			}
+			
+			switch (this.operation) {
+			case '+':
+				this.result = num1 + num2;
+				break;
+			case '-':
+				this.result = num1 - num2;
+				break;
+			case '/':
+				this.result = num1 / num2;
+				break;
+			case 'X':
+				this.result = num1 * num2;
+				break;
+			default:
+				this.result = 0;
+			}
+			break;
+			
+		default:
+			this.result = 0;
+			break;
+			
+		}
+		transformaResultados();
+
+	}
+	
+	public void transformaResultados() {
+		switch(this.baseActual.getText()) {
+		case "Base: decimal":
+			this.display.setText(String.valueOf(this.result));
+			break;
+		case "Base: binaria":
+			String resultado_binario = Integer.toBinaryString(this.result);
+			this.display.setText(resultado_binario);
+			break;
+		case "Base: octal":
+			String resultado_octal = Integer.toOctalString(this.result);
+			this.display.setText(resultado_octal);
+			break;
+		case "Base: hexadecimal":
+			String resultado_hexa = Integer.toHexString(this.result).toUpperCase();
+			this.display.setText(resultado_hexa);
 			break;
 		default:
+			this.display.setText("ERROR");
 			break;
 
-		}
-
-		this.display.setText(String.valueOf(this.result));
-
-	}
-
-	public void operation_Binaria() {
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d+)";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(texto);
-
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-			switch (this.operation) {
-			case '+':
-				this.result = this.num1 + this.num2;
-				break;
-			case '-':
-				this.result = this.num1 - this.num2;
-				break;
-			case 'X':
-				this.result = this.num1 * this.num2;
-				break;
-			case '/':
-				this.result = this.num1 / this.num2;
-				break;
-			default:
-				break;
-			}
-
-			// Convertimos el resultado en binario
-			String resultado = Integer.toBinaryString(this.result);
-			this.display.setText(resultado);
-
-		} else {
-			this.result = 0;
-		}
-
-	}
-	
-	public void operation_Octal() {
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d+)";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(texto);
-		
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-			switch (this.operation) {
-			case '+':
-				this.result = this.num1 + this.num2;
-				break;
-			case '-':
-				this.result = this.num1 - this.num2;
-				break;
-			case 'X':
-				this.result = this.num1 * this.num2;
-				break;
-			case '/':
-				this.result = this.num1 / this.num2;
-				break;
-			default:
-				break;
-			}
-			
-			// Convertirmos el resultado en octal
-			String resultado = Integer.toOctalString(this.result);
-			this.display.setText(resultado);
-		}else {
-			this.result = 0;
-		}
-			
-	}
-	
-	public void operation_Hexa() {
-		String texto = this.display.getText();
-		// Expresion regular para separar el texto del display
-		String regex = "(-?\\d+)([+-X/])(-?\\d+)";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(texto);
-		
-		if (matcher.matches()) {
-			this.num1 = Integer.parseInt(matcher.group(1));
-			this.operation = matcher.group(2).charAt(0);
-			this.num2 = Integer.parseInt(matcher.group(3));
-			switch (this.operation) {
-			case '+':
-				this.result = this.num1 + this.num2;
-				break;
-			case '-':
-				this.result = this.num1 - this.num2;
-				break;
-			case 'X':
-				this.result = this.num1 * this.num2;
-				break;
-			case '/':
-				this.result = this.num1 / this.num2;
-				break;
-			default:
-				break;
-			}
-			
-			// Convertimos el resultado en hexadecimal
-			String resultado = Integer.toHexString(this.result);
-			this.display.setText(resultado);
-		}else {
-			this.result = 0;
 		}
 	}
 
@@ -635,27 +658,12 @@ public class Engine implements ActionListener {
 			this.display.setText("");
 			this.baseActual.setText("Elige una base");
 			this.result = 0;
-			this.num1 = 0;
-			this.num2 = 0;
+			this.num1 = null;
+			this.num2 = null;
 
 			// El usuario pulsa equal con la base decimal
 		} else if (source.equals(this.equal)) {
-			switch (this.baseActual.getText()) {
-			case "Base: decimal":
-				operation_Decimal();
-				break;
-			case "Base: binaria":
-				operation_Binaria();
-				break;
-			case "Base: octal":
-				operation_Octal();
-				break;
-			case "Base: hexadecimal":
-				operation_Hexa();
-				break;
-			default:
-				this.display.setText("");
-			}
+			operation();
 
 			// El usuario pulsa delete
 		} else if (source.equals(this.delete))
