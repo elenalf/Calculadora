@@ -435,8 +435,7 @@ public class Engine implements ActionListener {
 	}
 
 	/**
-	 * Metodo que realiza las operaciones y divide el display en los operandos. En
-	 * la base Decimal
+	 * Metodo que realiza las operaciones y divide el display en los operandos.
 	 */
 	public void operation() {
 		int num1 = 0;
@@ -514,17 +513,17 @@ public class Engine implements ActionListener {
 			String regex_binario = "([01]+)([+-X/])([01]+)";
 			Pattern pattern_binario = Pattern.compile(regex_binario);
 			Matcher matcher_binario = pattern_binario.matcher(texto_binario);
-			
-			if(matcher_binario.matches()) {
+
+			if (matcher_binario.matches()) {
 				this.num1 = matcher_binario.group(1);
 				num1 = Integer.parseInt(this.num1, 2);
 				this.operation = matcher_binario.group(2).charAt(0);
 				this.num2 = matcher_binario.group(3);
 				num2 = Integer.parseInt(this.num2, 2);
-			}else {
+			} else {
 				this.result = 0;
 			}
-			
+
 			switch (this.operation) {
 			case '+':
 				this.result = num1 + num2;
@@ -536,7 +535,12 @@ public class Engine implements ActionListener {
 				this.result = num1 * num2;
 				break;
 			case '/':
-				this.result = num1 / num2;
+				if (num2 != 0) {
+					this.result = num1 / num2;
+				} else {
+					this.display.setText("ERROR: División entre 0");
+				}
+
 				break;
 			default:
 				this.result = 0;
@@ -544,11 +548,11 @@ public class Engine implements ActionListener {
 			break;
 		case "Base: octal":
 			String texto_octal = this.display.getText();
-			String regex_octal = "([01234567]+)([+-X/])([01234567]+)";
+			String regex_octal = "([0-7]+)([+-X/])([0-7]+)";
 			Pattern pattern_octal = Pattern.compile(regex_octal);
 			Matcher matcher_octal = pattern_octal.matcher(texto_octal);
-			
-			if(matcher_octal.matches()) {
+
+			if (matcher_octal.matches()) {
 				this.num1 = matcher_octal.group(1);
 				num1 = Integer.parseInt(this.num1, 8);
 				this.operation = matcher_octal.group(2).charAt(0);
@@ -557,7 +561,7 @@ public class Engine implements ActionListener {
 			} else {
 				this.result = 0;
 			}
-			
+
 			switch (this.operation) {
 			case '+':
 				this.result = num1 + num2;
@@ -569,7 +573,11 @@ public class Engine implements ActionListener {
 				this.result = num1 * num2;
 				break;
 			case '/':
-				this.result = num1 / num2;
+				if (num2 != 0) {
+					this.result = num1 / num2;
+				} else {
+					this.display.setText("ERROR: División entre 0");
+				}
 				break;
 			default:
 				this.result = 0;
@@ -577,20 +585,20 @@ public class Engine implements ActionListener {
 			break;
 		case "Base: hexadecimal":
 			String texto_hexa = this.display.getText();
-			String regex_hexa = "([0123456789abcdef]+)([+-/x])(0123456789abcdef]+)";
+			String regex_hexa = "([0-9a-fA-F]+)([+-/X])([0-9a-fA-F]+)";
 			Pattern pattern_hexa = Pattern.compile(regex_hexa);
 			Matcher matcher_hexa = pattern_hexa.matcher(texto_hexa);
-			
-			if(matcher_hexa.matches()) {
-				this.num1 = matcher_hexa.group(1);
+
+			if (matcher_hexa.matches()) {
+				this.num1 = matcher_hexa.group(1).toLowerCase();
 				num1 = Integer.parseInt(this.num1, 16);
 				this.operation = matcher_hexa.group(2).charAt(0);
-				this.num2 = matcher_hexa.group(3);
+				this.num2 = matcher_hexa.group(3).toLowerCase();
 				num2 = Integer.parseInt(this.num2, 16);
 			} else {
 				this.result = 0;
 			}
-			
+
 			switch (this.operation) {
 			case '+':
 				this.result = num1 + num2;
@@ -599,7 +607,11 @@ public class Engine implements ActionListener {
 				this.result = num1 - num2;
 				break;
 			case '/':
-				this.result = num1 / num2;
+				if (num2 != 0) {
+					this.result = num1 / num2;
+				} else {
+					this.display.setText("ERROR: División entre 0");
+				}
 				break;
 			case 'X':
 				this.result = num1 * num2;
@@ -608,18 +620,22 @@ public class Engine implements ActionListener {
 				this.result = 0;
 			}
 			break;
-			
+
 		default:
 			this.result = 0;
 			break;
-			
+
 		}
 		transformaResultados();
 
 	}
-	
+
+	/**
+	 * Metodo que transforma el resultado de las operaciones a la base
+	 * correspondiente y lo escribe en el display
+	 */
 	public void transformaResultados() {
-		switch(this.baseActual.getText()) {
+		switch (this.baseActual.getText()) {
 		case "Base: decimal":
 			this.display.setText(String.valueOf(this.result));
 			break;
