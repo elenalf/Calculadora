@@ -2,6 +2,7 @@ package main;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -88,6 +89,7 @@ public class Engine implements ActionListener {
 	private JButton nC;
 	private JButton owner;
 	private JTextField baseActual;
+	// Nuevas funcionalidades V2.0
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -686,9 +688,7 @@ public class Engine implements ActionListener {
 			operation();
 
 			// El usuario pulsa delete
-		} else if (source.equals(this.delete))
-
-		{
+		} else if (source.equals(this.delete)){
 			if (this.display.getText().length() > 0) {
 				this.display.setText(this.display.getText().substring(0, this.display.getText().length() - 1));
 			} else {
@@ -700,10 +700,8 @@ public class Engine implements ActionListener {
 			try {
 				Desktop.getDesktop().browse(new URI("https://www.casio.com/es/scientific-calculators/"));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (URISyntaxException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			// El usuario pulsa el boton de base binaria
@@ -713,49 +711,53 @@ public class Engine implements ActionListener {
 				int texto_display = Integer.valueOf(this.display.getText());
 				String texto_nuevo = Integer.toBinaryString(texto_display);
 				this.display.setText(texto_nuevo);
-			} catch(NumberFormatException x) {
+			} catch (NumberFormatException x) {
 				this.display.setText("");
 			}
-			
 
 			// El usuario pulsa el boton de la base decimal
 		} else if (source.equals(this.baseDecimal)) {
 			try {
 				this.baseActual.setText("Base: decimal");
 				String texto_display = this.display.getText();
-				
+
 				// Regex para numero binario
 				String regex_binario = "^[01]+$";
 				Pattern pattern_binario = Pattern.compile(regex_binario);
 				Matcher matcher_binario = pattern_binario.matcher(texto_display);
-				
+
 				// Regex para numero octal
 				String regex_octal = "^[0-7]+$";
 				Pattern pattern_octal = Pattern.compile(regex_octal);
 				Matcher matcher_octal = pattern_octal.matcher(texto_display);
-				
+
 				// Regex para numero hexadecimal
 				String regex_hexa = "^[0-9a-fA-F]+$";
 				Pattern pattern_hexa = Pattern.compile(regex_hexa);
 				Matcher matcher_hexa = pattern_hexa.matcher(texto_display);
-				
-				if(matcher_binario.matches()) {
+
+				// El numero del display es binario
+				if (matcher_binario.matches()) {
 					int texto_nuevo = Integer.parseInt(texto_display, 2);
 					this.display.setText(String.valueOf(texto_nuevo));
+
+					// El numero del display es octal
 				} else if (matcher_octal.matches()) {
 					int texto_nuevo = Integer.parseInt(texto_display, 8);
 					this.display.setText(String.valueOf(texto_nuevo));
+
+					// El numero del display es hexadecimal
 				} else if (matcher_hexa.matches()) {
 					int texto_nuevo = Integer.parseInt(texto_display, 16);
 					this.display.setText(String.valueOf(texto_nuevo));
+
+					// El numero del display no coincide con ningun formato
 				} else {
 					this.display.setText(texto_display);
 				}
 			} catch (NumberFormatException c) {
 				this.display.setText("");
 			}
-			
-			
 
 			// El usuario pulsa el boton de la base octal
 		} else if (source.equals(this.baseOctal)) {
@@ -767,7 +769,6 @@ public class Engine implements ActionListener {
 			} catch (NumberFormatException v) {
 				this.display.setText("");
 			}
-			
 
 			// El usuario pulsa el boton de la base hexadecimal
 		} else if (source.equals(this.baseHexa)) {
@@ -776,10 +777,9 @@ public class Engine implements ActionListener {
 				int texto_display = Integer.valueOf(this.display.getText());
 				String texto_nuevo = Integer.toHexString(texto_display).toUpperCase();
 				this.display.setText(texto_nuevo);
-			}catch (NumberFormatException b) {
+			} catch (NumberFormatException b) {
 				this.display.setText("");
 			}
-			
 
 			// El usuario pulsa el boton de owner
 		} else if (source.equals(this.owner)) {
