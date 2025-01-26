@@ -441,6 +441,7 @@ public class Engine implements ActionListener {
 		int num1 = 0;
 		int num2 = 0;
 		switch (this.baseActual.getText()) {
+		// Operaciones de base decimal
 		case "Base: decimal":
 			String texto = this.display.getText();
 			// Expresion regular para separar el texto del display
@@ -508,6 +509,7 @@ public class Engine implements ActionListener {
 
 			}
 			break;
+		// Operaciones base binaria
 		case "Base: binaria":
 			String texto_binario = this.display.getText();
 			String regex_binario = "([01]+)([+-X/])([01]+)";
@@ -546,6 +548,7 @@ public class Engine implements ActionListener {
 				this.result = 0;
 			}
 			break;
+		// Operaciones base octal
 		case "Base: octal":
 			String texto_octal = this.display.getText();
 			String regex_octal = "([0-7]+)([+-X/])([0-7]+)";
@@ -583,6 +586,7 @@ public class Engine implements ActionListener {
 				this.result = 0;
 			}
 			break;
+
 		case "Base: hexadecimal":
 			String texto_hexa = this.display.getText();
 			String regex_hexa = "([0-9a-fA-F]+)([+-/X])([0-9a-fA-F]+)";
@@ -704,42 +708,79 @@ public class Engine implements ActionListener {
 			}
 			// El usuario pulsa el boton de base binaria
 		} else if (source.equals(this.baseBinaria)) {
-			if (this.baseActual.getText().length() > 0) {
+			try {
+				this.baseActual.setText("Base: binaria");
 				int texto_display = Integer.valueOf(this.display.getText());
 				String texto_nuevo = Integer.toBinaryString(texto_display);
 				this.display.setText(texto_nuevo);
-			} else {
-				this.baseActual.setText("Base: binaria");
+			} catch(NumberFormatException x) {
+				this.display.setText("");
 			}
+			
 
 			// El usuario pulsa el boton de la base decimal
 		} else if (source.equals(this.baseDecimal)) {
-			if (this.baseActual.getText().length() > 0) {
-				int texto_nuevo = Integer.parseInt(this.display.getText());
-				this.display.setText(String.valueOf(texto_nuevo));
-			} else {
+			try {
 				this.baseActual.setText("Base: decimal");
+				String texto_display = this.display.getText();
+				
+				// Regex para numero binario
+				String regex_binario = "^[01]+$";
+				Pattern pattern_binario = Pattern.compile(regex_binario);
+				Matcher matcher_binario = pattern_binario.matcher(texto_display);
+				
+				// Regex para numero octal
+				String regex_octal = "^[0-7]+$";
+				Pattern pattern_octal = Pattern.compile(regex_octal);
+				Matcher matcher_octal = pattern_octal.matcher(texto_display);
+				
+				// Regex para numero hexadecimal
+				String regex_hexa = "^[0-9a-fA-F]+$";
+				Pattern pattern_hexa = Pattern.compile(regex_hexa);
+				Matcher matcher_hexa = pattern_hexa.matcher(texto_display);
+				
+				if(matcher_binario.matches()) {
+					int texto_nuevo = Integer.parseInt(texto_display, 2);
+					this.display.setText(String.valueOf(texto_nuevo));
+				} else if (matcher_octal.matches()) {
+					int texto_nuevo = Integer.parseInt(texto_display, 8);
+					this.display.setText(String.valueOf(texto_nuevo));
+				} else if (matcher_hexa.matches()) {
+					int texto_nuevo = Integer.parseInt(texto_display, 16);
+					this.display.setText(String.valueOf(texto_nuevo));
+				} else {
+					this.display.setText(texto_display);
+				}
+			} catch (NumberFormatException c) {
+				this.display.setText("");
 			}
+			
+			
 
 			// El usuario pulsa el boton de la base octal
 		} else if (source.equals(this.baseOctal)) {
-			if (this.baseActual.getText().length() > 0) {
-				int texto_display = Integer.valueOf(this.display.getText());
-				String texto_nuevo = Integer.toString(texto_display);
-				this.display.setText(texto_nuevo);
-			} else {
+			try {
 				this.baseActual.setText("Base: octal");
+				int texto_display = Integer.valueOf(this.display.getText());
+				String texto_nuevo = Integer.toOctalString(texto_display);
+				this.display.setText(texto_nuevo);
+			} catch (NumberFormatException v) {
+				this.display.setText("");
 			}
+			
 
 			// El usuario pulsa el boton de la base hexadecimal
 		} else if (source.equals(this.baseHexa)) {
-			if (this.baseActual.getText().length() > 0) {
-				int texto_display = Integer.valueOf(this.display.getText());
-				String texto_nuevo = Integer.toHexString(texto_display);
-				this.display.setText(texto_nuevo);
-			} else {
+			try {
 				this.baseActual.setText("Base: hexadecimal");
+				int texto_display = Integer.valueOf(this.display.getText());
+				String texto_nuevo = Integer.toHexString(texto_display).toUpperCase();
+				this.display.setText(texto_nuevo);
+			}catch (NumberFormatException b) {
+				this.display.setText("");
 			}
+			
+
 			// El usuario pulsa el boton de owner
 		} else if (source.equals(this.owner)) {
 			VentanaEmergente pop = new VentanaEmergente("Esta calculadora es propiedad de Elena López Félix");
