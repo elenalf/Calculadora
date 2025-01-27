@@ -90,6 +90,7 @@ public class Engine implements ActionListener {
 	private JButton owner;
 	private JTextField baseActual;
 	// Nuevas funcionalidades V2.0
+	private JButton porcentaje;
 
 	// Tipos de boton
 	private enum ButtonType {
@@ -199,6 +200,8 @@ public class Engine implements ActionListener {
 		this.info = new JButton("Info");
 
 		this.owner = new JButton("Owner");
+		
+		this.porcentaje = new JButton("%");
 
 		this.baseActual = new JTextField();
 
@@ -240,7 +243,7 @@ public class Engine implements ActionListener {
 		this.displayPanel.add(this.display);
 
 		// Configuracion del panel que contiene los botones. (Panel Sur)
-		this.buttonPanel.setLayout(new GridLayout(8, 4));
+		this.buttonPanel.setLayout(new GridLayout(9, 4));
 
 		// Configuración del panel de informacion. (Panel Norte)
 		this.infoPanel.setLayout(new GridLayout(1, 2));
@@ -321,14 +324,18 @@ public class Engine implements ActionListener {
 		setFeaturesButton(this.add, ButtonType.OPERATOR);
 
 		// Octava fila
-		this.buttonPanel.add(this.reset);
-		setFeaturesButton(this.reset, ButtonType.OPERATOR);
+		this.buttonPanel.add(this.porcentaje);
+		setFeaturesButton(this.porcentaje, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.n0);
 		setFeaturesButton(this.n0, ButtonType.REGULAR);
 		this.buttonPanel.add(this.delete);
 		setFeaturesButton(this.delete, ButtonType.OPERATOR);
 		this.buttonPanel.add(this.equal);
 		setFeaturesButton(this.equal, ButtonType.OPERATOR);
+		
+		// Novena fila
+		this.buttonPanel.add(this.reset);
+		setFeaturesButton(this.reset, ButtonType.OPERATOR);
 
 		// Insertar el panel que contiene el display (Panel Norte) al panel principal
 		this.contentPanel.add(this.displayPanel, BorderLayout.CENTER);
@@ -434,6 +441,7 @@ public class Engine implements ActionListener {
 		this.nB.addActionListener(this);
 		this.nC.addActionListener(this);
 		this.owner.addActionListener(this);
+		this.porcentaje.addActionListener(this);
 	}
 
 	/**
@@ -447,7 +455,7 @@ public class Engine implements ActionListener {
 		case "Base: decimal":
 			String texto = this.display.getText();
 			// Expresion regular para separar el texto del display
-			String regex = "(-?\\d+)([+-X/^])(-?\\d+)";
+			String regex = "(-?\\d+)([+-X/^%])(-?\\d+)";
 			// Expresion regular especial para la raiz cuadrada
 			String regexRaiz = "(√)(\\d+)";
 			// Expresion regular especial para el factorial
@@ -505,6 +513,9 @@ public class Engine implements ActionListener {
 				break;
 			case '!':
 				this.result = factorial(num1);
+				break;
+			case '%':
+				this.result = (num1 * num2) / 100;
 				break;
 			default:
 				break;
